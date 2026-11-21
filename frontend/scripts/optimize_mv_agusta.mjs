@@ -1,11 +1,23 @@
 import fs from 'fs';
 import { execSync } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '..');
+const publicDir = path.resolve(projectRoot, 'public');
 
 console.log('Optimizing MV Agusta GLB: stripping textures, extensions, stand, and Draco compressing...');
 
-const inputPath = 'D:/Matter Work Porfolio/Matter Aera 3D Model/mv-agusta-brutale-extracted/source/88741s98.glb';
-const intermediatePath = 'D:/Software/My website/frontend/public/mv_agusta_untextured.glb';
-const outputPath = 'D:/Software/My website/frontend/public/models/mv_agusta_optimized.glb';
+const inputPath = process.argv[2] || process.env.INPUT_GLB || path.resolve(publicDir, 'models/raw_source.glb');
+const intermediatePath = path.resolve(publicDir, 'mv_agusta_untextured.glb');
+const outputPath = path.resolve(publicDir, 'models/mv_agusta_optimized.glb');
+
+if (!fs.existsSync(inputPath)) {
+  console.log(`Input source GLB not found at ${inputPath}. Pass path via CLI: node scripts/optimize_mv_agusta.mjs <file.glb>`);
+  process.exit(0);
+}
 
 // Read raw GLB
 const buf = fs.readFileSync(inputPath);
@@ -20,6 +32,7 @@ if (gltf.materials) {
       metallicFactor: 0.5,
       roughnessFactor: 0.5
     };
+    mat.alphaMode = 'OPAQUE';
     delete mat.normalTexture;
     delete mat.occlusionTexture;
     delete mat.emissiveTexture;
@@ -92,7 +105,7 @@ console.log(`Intermediate GLB written: ${(outBuf.length / 1024 / 1024).toFixed(2
 // 5. Run Draco Compression via gltf-pipeline
 try {
   console.log('Running Draco mesh compression...');
-  execSync(`cmd.exe /c npx gltf-pipeline -i "${intermediatePath}" -o "${outputPath}" -d`, { stdio: 'inherit' });
+  execSync(`npx gltf-pipeline -i "${intermediatePath}" -o "${outputPath}" -d`, { stdio: 'inherit' });
   const finalStat = fs.statSync(outputPath);
   console.log(`Final Draco Compressed GLB written to: ${outputPath} (${(finalStat.size / 1024 / 1024).toFixed(2)} MB)`);
   

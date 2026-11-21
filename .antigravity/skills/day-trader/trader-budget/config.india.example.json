@@ -1,0 +1,40 @@
+{
+  "market": "IN",
+  "currency": "INR",
+  "budget": 100000,
+  "cash_buffer_pct": 10,
+  "max_position_pct": 50,
+  "max_order_usd": 50000,
+  "min_order_usd": 100,
+  "max_loss_per_trade_usd": 2000,
+  "max_daily_loss_usd": 5000,
+  "max_trades_per_day": 3,
+  "max_orders_per_day": 10,
+  "min_reward_risk": 1.5,
+  "require_stop": true,
+  "no_entries_before": "09:20",
+  "no_entries_after": "15:00",
+  "flat_by": "15:15",
+  "fractional": false,
+  "broker": "kite",
+  "paper": true,
+  "blocked": [],
+  "allow_options": true,
+  "allow_margin": false,
+  "allow_short": false,
+  "pdt_guard": false,
+  "lot_sizes": {
+    "NIFTY": 25,
+    "BANKNIFTY": 15,
+    "FINNIFTY": 25,
+    "MIDCPNIFTY": 50,
+    "SENSEX": 10,
+    "BANKEX": 15
+  },
+  "strike_steps": {
+    "NIFTY": 50,
+    "BANKNIFTY": 100,
+    "FINNIFTY": 50,
+    "MIDCPNIFTY": 25
+  }
+}

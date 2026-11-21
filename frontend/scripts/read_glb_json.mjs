@@ -1,38 +1,23 @@
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-console.log('Reading GLB JSON chunk...');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '..');
+const defaultInput = path.resolve(projectRoot, 'public/models/mv_agusta_optimized.glb');
+const targetFile = process.argv[2] || defaultInput;
 
-const buffer = fs.readFileSync('D:/Matter Work Porfolio/Matter Aera 3D Model/mv-agusta-brutale-extracted/source/88741s98.glb');
+if (!fs.existsSync(targetFile)) {
+  console.log(`Target GLB not found at ${targetFile}`);
+  process.exit(0);
+}
 
-const magic = buffer.toString('utf8', 0, 4);
-const version = buffer.readUInt32LE(4);
-const length = buffer.readUInt32LE(8);
-const jsonLength = buffer.readUInt32LE(12);
-const jsonType = buffer.toString('utf8', 16, 20);
+const buffer = fs.readFileSync(targetFile);
+const jsonLen = buffer.readUInt32LE(12);
+const gltf = JSON.parse(buffer.toString('utf8', 20, 20 + jsonLen));
 
-console.log(`GLB Magic: ${magic}, Version: ${version}, Total Length: ${length}, JSON Length: ${jsonLength}, Type: ${jsonType}`);
-
-const jsonString = buffer.toString('utf8', 20, 20 + jsonLength);
-const gltf = JSON.parse(jsonString);
-
-console.log('Scenes count:', gltf.scenes?.length);
-console.log('Nodes count:', gltf.nodes?.length);
-console.log('Meshes count:', gltf.meshes?.length);
-console.log('Materials count:', gltf.materials?.length);
-
-console.log('\n--- Node Names ---');
-gltf.nodes.forEach((n, idx) => {
-  if (n.mesh !== undefined || (n.name && (n.name.toLowerCase().includes('paddock') || n.name.toLowerCase().includes('stand')))) {
-    console.log(`Node [${idx}] "${n.name}" -> Mesh [${n.mesh}]`);
-  }
-});
-
-console.log('\n--- Mesh Names ---');
-gltf.meshes.forEach((m, idx) => {
-  console.log(`Mesh [${idx}] "${m.name}" - Primitives: ${m.primitives.length}`);
-});
-
-console.log('\n--- Material Names ---');
-gltf.materials?.forEach((mat, idx) => {
-  console.log(`Material [${idx}] "${mat.name}"`);
-});
+console.log('GLTF JSON extracted:');
+console.log('Scenes:', gltf.scenes?.length || 0);
+console.log('Nodes:', gltf.nodes?.length || 0);
+console.log('Meshes:', gltf.meshes?.length || 0);

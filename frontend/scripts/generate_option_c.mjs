@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter.js';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 console.log('Generating Option C: Modern Production Electric Superbike (.obj)...');
 
@@ -386,10 +387,13 @@ const objResult = exporter.parse(bike);
 console.log(`Generated .obj file with length: ${objResult.length} bytes.`);
 
 // Save paths
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '..');
+const publicDir = path.resolve(projectRoot, 'public');
+
 const targetPaths = [
-  'C:\\Users\\rohan\\.gemini\\antigravity\\brain\\f5cf9200-0c26-43f1-8aa4-ebe69d3686dd\\option_c_superbike.obj',
-  'D:\\Matter Work Porfolio\\option_c_superbike.obj',
-  'D:\\Software\\My website\\frontend\\public\\option_c_superbike.obj'
+  path.resolve(publicDir, 'models/option_c_superbike.obj')
 ];
 
 targetPaths.forEach(p => {
