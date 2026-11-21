@@ -2,25 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Rohan Lodaya — Executive Automotive Systems Resume</title>
+<title>Rohan Lodaya — Executive Resume</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=DM+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-page: #0a0b0e;
-    --card-bg: #111217;
-    --card-border: #22232c;
-    --ink-text: #f4f3ee;
-    --body-text: #cbcac4;
-    --muted-text: #8e8d87;
-    --acid: #d9ff3f;
-    --acid-dim: rgba(217, 255, 63, 0.12);
-    --acid-border: rgba(217, 255, 63, 0.32);
-    --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-display: 'Syne', -apple-system, sans-serif;
-    --font-sans: 'Space Grotesk', -apple-system, sans-serif;
-    --font-mono: 'DM Mono', monospace;
+    --bg-page: #ffffff;
+    --text-primary: #09090b;
+    --text-body: #27272a;
+    --text-muted: #52525b;
+    --text-light: #71717a;
+    --border-color: #e4e4e7;
+    --border-dark: #18181b;
+    --badge-bg: #f4f4f5;
+    --accent: #0f172a;
+    --font-heading: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,12 +30,12 @@
   }
 
   body {
-    background: #000000;
-    font-family: var(--font-sans);
-    color: var(--body-text);
+    background: #e4e4e7;
+    font-family: var(--font-body);
+    color: var(--text-body);
     -webkit-font-smoothing: antialiased;
-    font-size: 8.5pt;
-    line-height: 1.36;
+    font-size: 8.4pt;
+    line-height: 1.42;
   }
 
   .page {
@@ -45,7 +44,7 @@
     max-height: 297mm;
     margin: 0 auto;
     background: var(--bg-page);
-    padding: 8.5mm 12mm 7.5mm;
+    padding: 10mm 14mm 8mm;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -61,70 +60,55 @@
   a { color: inherit; text-decoration: none; }
 
   /* ─────────────────────────────────────────────────────────────
-     HEADER (PAGE 1)
+     HEADER
      ───────────────────────────────────────────────────────────── */
   .resume-header {
-    background: #111217;
-    border: 1px solid var(--card-border);
-    border-radius: 6px;
-    padding: 12px 18px 10px;
-    margin-bottom: 7px;
+    border-bottom: 2px solid var(--border-dark);
+    padding-bottom: 9px;
+    margin-bottom: 9px;
   }
 
-  .header-top-row {
+  .header-top {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-end;
     margin-bottom: 8px;
   }
 
-  .brand-lockup {
+  .name-block {
     display: flex;
     flex-direction: column;
-    line-height: 0.88;
   }
 
-  .brand-first {
-    font-family: var(--font-serif);
-    font-size: 26pt;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--ink-text);
-    text-transform: uppercase;
-    display: block;
-  }
-
-  .brand-last {
-    font-family: var(--font-display);
-    font-size: 23pt;
+  .candidate-name {
+    font-family: var(--font-heading);
+    font-size: 22.5pt;
     font-weight: 800;
-    letter-spacing: 0.01em;
-    color: var(--ink-text);
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1;
     text-transform: uppercase;
-    margin-top: 2px;
-    display: block;
   }
 
-  .role-title {
-    font-family: var(--font-mono);
-    font-size: 7.8pt;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--acid);
+  .candidate-title {
+    font-family: var(--font-heading);
+    font-size: 8.3pt;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
     text-transform: uppercase;
-    margin-top: 6px;
-    display: block;
+    margin-top: 4px;
   }
 
-  .contact-badges {
+  .contact-block {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 3.5px;
-    font-family: var(--font-mono);
-    font-size: 7.3pt;
-    color: var(--muted-text);
-    letter-spacing: 0.03em;
+    gap: 2.5px;
+    font-size: 7.7pt;
+    color: var(--text-light);
+    font-family: var(--font-body);
+    min-width: 320px;
     white-space: nowrap;
   }
 
@@ -132,658 +116,746 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    color: var(--body-text);
+    white-space: nowrap;
   }
-  .contact-item a { color: var(--body-text); }
-  .contact-item a:hover { color: var(--acid); }
-  .contact-dot { color: var(--acid); font-weight: 700; }
+  .contact-item a {
+    color: var(--text-body);
+    font-weight: 500;
+  }
+  .contact-item a:hover {
+    color: #000;
+    text-decoration: underline;
+  }
+  .contact-sep {
+    color: #a1a1aa;
+  }
+  .portfolio-link {
+    color: #09090b !important;
+    font-weight: 600 !important;
+    font-family: var(--font-mono);
+    font-size: 7.4pt;
+    background: #f4f4f5;
+    padding: 1.5px 6px;
+    border-radius: 4px;
+    border: 1px solid #e4e4e7;
+  }
 
   /* METRICS STRIP */
   .metrics-strip {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 8px;
     padding-top: 8px;
-    border-top: 1px solid rgba(255,255,255,0.07);
+    border-top: 1px solid var(--border-color);
   }
 
-  .metric-item {
+  .metric-card {
+    background: #fafafa;
+    border: 1px solid #f0f0f2;
+    border-radius: 5px;
+    padding: 5px 9px;
     display: flex;
     flex-direction: column;
   }
 
-  .metric-num {
-    font-family: var(--font-display);
-    font-size: 13.5pt;
+  .metric-value {
+    font-family: var(--font-heading);
+    font-size: 13pt;
     font-weight: 800;
-    color: var(--acid);
-    letter-spacing: -0.04em;
-    line-height: 1;
+    color: var(--text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 
-  .metric-label {
-    font-family: var(--font-mono);
-    font-size: 6.3pt;
-    color: var(--muted-text);
+  .metric-desc {
+    font-size: 6.6pt;
+    font-weight: 600;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-top: 3px;
+    letter-spacing: 0.04em;
+    margin-top: 1.5px;
   }
 
   /* ─────────────────────────────────────────────────────────────
-     SECTION HEADERS
+     SECTIONS
      ───────────────────────────────────────────────────────────── */
   .resume-section {
-    margin-bottom: 6.5px;
+    margin-bottom: 8px;
   }
 
-  .section-header {
+  .section-title-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    border-bottom: 1.5px solid var(--text-primary);
+    padding-bottom: 2.5px;
   }
 
-  .sec-tag {
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: 9.2pt;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .section-link {
     font-family: var(--font-mono);
-    font-size: 6.8pt;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--acid);
-    background: var(--acid-dim);
-    border: 1px solid var(--acid-border);
-    padding: 1px 5px;
-    border-radius: 3px;
-    text-transform: uppercase;
-  }
-
-  .sec-title {
-    font-family: var(--font-display);
-    font-size: 9.1pt;
-    font-weight: 700;
-    color: var(--ink-text);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  .sec-line {
-    flex: 1;
-    height: 1px;
-    background: var(--card-border);
+    font-size: 7.0pt;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: none;
   }
 
   /* SUMMARY */
-  .summary-text {
-    font-size: 7.9pt;
-    line-height: 1.35;
-    color: #b8b7b0;
+  .summary-paragraph {
+    font-size: 8.2pt;
+    line-height: 1.42;
+    color: #3f3f46;
     text-align: justify;
   }
-  .summary-text strong {
-    color: var(--ink-text);
+  .summary-paragraph strong {
+    color: var(--text-primary);
     font-weight: 600;
   }
 
-  /* CORE COMPETENCIES */
-  .skills-container {
+  /* COMPETENCIES GRID */
+  .competencies-grid {
     display: flex;
     flex-direction: column;
-    gap: 2.5px;
+    gap: 3.5px;
   }
 
-  .skill-row {
+  .comp-row {
     display: flex;
     align-items: baseline;
     gap: 8px;
-    font-size: 7.7pt;
-    line-height: 1.32;
-    padding: 2.5px 6px;
-    background: rgba(255,255,255,0.015);
-    border: 1px solid rgba(255,255,255,0.04);
+    font-size: 7.9pt;
+    line-height: 1.38;
+    padding: 3px 7px;
+    background: #fafafa;
+    border: 1px solid #f0f0f2;
     border-radius: 4px;
   }
 
-  .skill-domain {
-    font-family: var(--font-mono);
-    font-size: 7pt;
+  .comp-domain {
+    font-family: var(--font-heading);
+    font-size: 7.5pt;
     font-weight: 700;
-    color: var(--acid);
-    flex-shrink: 0;
-    width: 145px;
+    color: var(--text-primary);
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    width: 150px;
+    flex-shrink: 0;
   }
 
-  .skill-items {
-    color: #b5b4ad;
+  .comp-skills {
+    color: #52525b;
   }
-  .skill-items strong { color: var(--ink-text); font-weight: 600; }
+  .comp-skills strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
 
   /* EXPERIENCE ITEMS */
-  .job-block {
+  .job-item {
     margin-bottom: 6px;
   }
 
-  .job-header-row {
+  .job-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 1.5px;
+    margin-bottom: 2px;
   }
 
-  .job-title {
-    font-family: var(--font-display);
-    font-size: 9.2pt;
+  .job-role {
+    font-family: var(--font-heading);
+    font-size: 9.3pt;
     font-weight: 700;
-    color: var(--ink-text);
+    color: var(--text-primary);
     letter-spacing: -0.01em;
   }
 
-  .job-date-badge {
+  .job-date {
     font-family: var(--font-mono);
-    font-size: 6.8pt;
+    font-size: 7.2pt;
     font-weight: 600;
-    color: var(--acid);
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 2px 7px;
-    border-radius: 3px;
-    letter-spacing: 0.06em;
+    color: #18181b;
+    background: #f4f4f5;
+    border: 1px solid #e4e4e7;
+    padding: 1.5px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
   }
 
-  .job-company-row {
+  .job-meta {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 7.2pt;
-    color: var(--muted-text);
-    margin-bottom: 3.5px;
+    font-size: 7.6pt;
+    color: var(--text-muted);
+    margin-bottom: 4px;
   }
-  .job-company { color: #d6d5ce; font-weight: 600; }
-  .job-scope-tag { color: var(--acid); font-style: italic; }
+  .job-company {
+    font-weight: 600;
+    color: #18181b;
+  }
+  .job-scope {
+    font-style: italic;
+    color: #71717a;
+  }
 
-  .sub-discipline {
-    font-family: var(--font-mono);
-    font-size: 7.1pt;
+  .discipline-header {
+    font-family: var(--font-heading);
+    font-size: 7.6pt;
     font-weight: 700;
-    color: #e6e5df;
+    color: #27272a;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    margin: 4px 0 2px;
+    margin: 4px 0 2.5px;
     display: flex;
     align-items: center;
     gap: 4px;
   }
-  .sub-discipline::before {
-    content: "▸";
-    color: var(--acid);
+  .discipline-header::before {
+    content: "■";
+    font-size: 4.5pt;
+    color: #18181b;
   }
 
-  .bullet-list {
+  .experience-bullets {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 3.5px;
   }
 
-  .bullet-list li {
+  .experience-bullets li {
     position: relative;
     padding-left: 11px;
-    font-size: 7.8pt;
-    line-height: 1.33;
-    color: #aeada7;
+    font-size: 8.0pt;
+    line-height: 1.40;
+    color: #3f3f46;
     text-align: justify;
   }
 
-  .bullet-list li::before {
-    content: "▪";
+  .experience-bullets li::before {
+    content: "•";
     position: absolute;
     left: 0;
-    top: -0.5px;
-    color: var(--acid);
-    font-size: 7pt;
+    top: -1px;
+    font-size: 8.5pt;
+    color: #71717a;
   }
 
-  .bullet-list li strong {
-    color: var(--ink-text);
+  .experience-bullets li strong {
+    color: var(--text-primary);
     font-weight: 600;
   }
 
   .metric-highlight {
-    color: var(--acid);
-    font-weight: 600;
+    font-weight: 700;
+    color: #09090b;
+    background: #f4f4f5;
+    padding: 0.5px 3px;
+    border-radius: 2px;
   }
 
   /* ─────────────────────────────────────────────────────────────
-     PAGE 2 ELEMENTS
+     PAGE 2 SPECIFICS
      ───────────────────────────────────────────────────────────── */
   .page2-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 7px;
-    border-bottom: 1px solid var(--card-border);
-    margin-bottom: 8.5px;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--border-dark);
+    margin-bottom: 8px;
   }
 
-  .page2-brand {
-    font-family: var(--font-mono);
-    font-size: 7.4pt;
-    font-weight: 700;
-    color: var(--ink-text);
-    letter-spacing: 0.1em;
+  .page2-name {
+    font-family: var(--font-heading);
+    font-size: 8.0pt;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
     text-transform: uppercase;
   }
-  .page2-brand span { color: var(--acid); }
+  .page2-name span {
+    font-weight: 500;
+    color: var(--text-light);
+  }
 
   .page-num {
     font-family: var(--font-mono);
     font-size: 7.2pt;
-    color: var(--muted-text);
-    letter-spacing: 0.08em;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
   }
 
   /* PATENTS */
-  .patents-intro {
-    font-size: 7.8pt;
-    color: var(--muted-text);
-    margin-bottom: 5px;
+  .patents-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .patents-link {
-    font-family: var(--font-mono);
-    font-size: 7.2pt;
-    font-weight: 600;
-    color: var(--acid);
-    text-decoration: underline;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .patents-granted-box {
-    background: rgba(217, 255, 63, 0.04);
-    border: 1px solid var(--acid-border);
-    border-radius: 5px;
-    padding: 6px 10px;
-    margin-bottom: 5px;
-  }
-
-  .patents-granted-title {
+  .patents-granted-card {
+    background: #fafafa;
+    border: 1px solid #e4e4e7;
+    border-left: 3px solid #09090b;
+    border-radius: 4px;
+    padding: 5px 8px;
     display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 7.1pt;
-    font-weight: 700;
-    color: var(--acid);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 3px;
+    flex-direction: column;
+    gap: 2.5px;
   }
 
   .patent-granted-badge {
-    background: var(--acid-dim);
-    color: var(--acid);
-    border: 1px solid var(--acid-border);
-    padding: 1px 5px;
-    border-radius: 2px;
-    font-size: 6.4pt;
-  }
-
-  .patent-group-title {
     font-family: var(--font-mono);
-    font-size: 7pt;
+    font-size: 6.8pt;
     font-weight: 700;
-    color: #deddd7;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin: 4px 0 2px;
+    color: #15803d;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    padding: 1px 5px;
+    border-radius: 3px;
+    display: inline-block;
+    align-self: flex-start;
   }
 
-  /* EDUCATION & RESEARCH */
-  .edu-row {
+  .patent-item {
+    font-size: 7.9pt;
+    line-height: 1.36;
+    color: #3f3f46;
+  }
+  .patent-item strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .patents-published-group {
+    font-size: 7.8pt;
+    line-height: 1.38;
+    color: #52525b;
+    padding: 2.5px 0;
+  }
+  .patents-published-group strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* EDUCATION */
+  .edu-item {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 3px;
-    font-size: 8.1pt;
+    font-size: 8.0pt;
+    padding: 2px 0;
+    border-bottom: 1px dotted #e4e4e7;
   }
-  .edu-degree { font-weight: 600; color: var(--ink-text); }
-  .edu-school { color: #a2a19b; font-size: 7.6pt; }
-  .edu-meta { font-family: var(--font-mono); font-size: 7.3pt; color: var(--acid); flex-shrink: 0; }
+  .edu-item:last-child {
+    border-bottom: none;
+  }
 
-  .baja-block, .research-block {
-    margin-top: 3.5px;
-    font-size: 7.9pt;
-    line-height: 1.34;
-    color: #aeada7;
+  .edu-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
   }
-  .baja-block strong, .research-block strong {
-    color: var(--ink-text);
+  .edu-degree {
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .edu-inst {
+    color: var(--text-muted);
+  }
+
+  .edu-meta {
+    font-family: var(--font-mono);
+    font-size: 7.3pt;
+    font-weight: 600;
+    color: #3f3f46;
+    white-space: nowrap;
+  }
+
+  .collegiate-row {
+    font-size: 7.8pt;
+    line-height: 1.36;
+    color: #3f3f46;
+    padding-top: 3px;
+  }
+  .collegiate-row strong {
+    color: var(--text-primary);
     font-weight: 600;
   }
 
   /* STANDARDS */
-  .standards-pills {
+  .standards-wrap {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 4px;
+    gap: 3.5px;
+    margin-bottom: 4px;
   }
-  .std-pill {
-    font-family: var(--font-mono);
-    font-size: 7pt;
-    font-weight: 600;
-    color: #d6d5ce;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 2.5px 7px;
-    border-radius: 3px;
-  }
-  .std-pill strong { color: var(--acid); font-weight: 700; }
 
-  .lang-row {
-    margin-top: 5px;
-    font-size: 7.7pt;
+  .std-tag {
     font-family: var(--font-mono);
-    color: var(--muted-text);
+    font-size: 6.8pt;
+    background: #fafafa;
+    border: 1px solid #e4e4e7;
+    color: #3f3f46;
+    padding: 1.5px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
   }
-  .lang-row span { color: var(--ink-text); font-weight: 600; }
+  .std-tag strong {
+    color: #09090b;
+    font-weight: 700;
+  }
+
+  .languages-row {
+    font-size: 7.8pt;
+    color: #52525b;
+  }
+  .languages-row strong {
+    color: var(--text-primary);
+  }
+  .languages-row span {
+    color: #18181b;
+    font-weight: 500;
+  }
 
   /* FOOTER */
   .page-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid var(--card-border);
-    padding-top: 5px;
+    font-size: 6.8pt;
+    color: var(--text-light);
     font-family: var(--font-mono);
-    font-size: 6.6pt;
-    color: #6a6964;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════════════════════
      PAGE 1
-     ═══════════════════════════════════════════════════════ -->
+     ═══════════════════════════════════════════════════════════════ -->
 <div class="page" id="page1">
-  <div>
+  <div class="page-content">
+
     <!-- HEADER -->
     <header class="resume-header">
-      <div class="header-top-row">
-        <div class="brand-lockup">
-          <span class="brand-first">ROHAN</span>
-          <span class="brand-last">LODAYA</span>
-          <span class="role-title">Lead Automotive Systems, Powertrain Calibration & Connected Vehicle Engineer</span>
+      <div class="header-top">
+        <div class="name-block">
+          <h1 class="candidate-name">Rohan Lodaya</h1>
+          <div class="candidate-title">Lead Automotive Systems, Powertrain Calibration & Connected Vehicle Engineer</div>
         </div>
-        <div class="contact-badges">
-          <div class="contact-item">Ahmedabad, Gujarat, India <span class="contact-dot">•</span> Open to Relocation</div>
-          <div class="contact-item"><a href="tel:+918320683628">+91-8320683628</a> <span class="contact-dot">•</span> <a href="mailto:rohanlodaya1997@gmail.com">rohanlodaya1997@gmail.com</a></div>
-          <div class="contact-item"><a href="https://www.linkedin.com/in/rohan-lodaya">linkedin.com/in/rohan-lodaya</a></div>
-          <div class="contact-item" style="color: var(--acid); font-weight:600;"><a href="https://rohan007007.github.io/portfolio/">rohan007007.github.io/portfolio</a></div>
+        <div class="contact-block">
+          <div class="contact-item">
+            <span>Ahmedabad, Gujarat, India</span>
+            <span class="contact-sep">•</span>
+            <span>Open to Relocation</span>
+          </div>
+          <div class="contact-item">
+            <span>+91-8320683628</span>
+            <span class="contact-sep">•</span>
+            <a href="mailto:rohanlodaya1997@gmail.com">rohanlodaya1997@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <a href="https://www.linkedin.com/in/rohan-lodaya" target="_blank">linkedin.com/in/rohan-lodaya</a>
+            <span class="contact-sep">•</span>
+            <a href="https://rohan007007.github.io/portfolio/" target="_blank" class="portfolio-link">rohan007007.github.io/portfolio ↗</a>
+          </div>
         </div>
       </div>
 
       <!-- METRICS STRIP -->
       <div class="metrics-strip">
-        <div class="metric-item">
-          <div class="metric-num">14</div>
-          <div class="metric-label">Automotive Patents (2 Granted)</div>
+        <div class="metric-card">
+          <div class="metric-value">14 Patents</div>
+          <div class="metric-desc">Automotive IP (2 Granted)</div>
         </div>
-        <div class="metric-item">
-          <div class="metric-num">2M+ km</div>
-          <div class="metric-label">Fleet Analyzed (180k+ Rides)</div>
+        <div class="metric-card">
+          <div class="metric-value">2M+ km</div>
+          <div class="metric-desc">Fleet Analyzed (180k+ Rides)</div>
         </div>
-        <div class="metric-item">
-          <div class="metric-num">170+ km</div>
-          <div class="metric-label">Range (+65% Efficiency Gain)</div>
+        <div class="metric-card">
+          <div class="metric-value">170+ km</div>
+          <div class="metric-desc">Certified Range (+65% Eff.)</div>
         </div>
-        <div class="metric-item">
-          <div class="metric-num">&lt;3 min</div>
-          <div class="metric-label">A-FTA Isolation (&gt;96% Accuracy)</div>
+        <div class="metric-card">
+          <div class="metric-value">&lt;3 min</div>
+          <div class="metric-desc">A-FTA Isolation (&gt;96% Acc.)</div>
         </div>
       </div>
     </header>
 
-    <!-- 01: PROFESSIONAL SUMMARY -->
+    <!-- PROFESSIONAL SUMMARY -->
     <section class="resume-section">
-      <div class="section-header">
-        <span class="sec-tag">01</span>
-        <h2 class="sec-title">Professional Summary</h2>
-        <div class="sec-line"></div>
+      <div class="section-title-row">
+        <h2 class="section-title">Professional Summary</h2>
       </div>
-      <p class="summary-text">
+      <p class="summary-paragraph">
         <strong>Lead Automotive Systems, Powertrain Calibration, and Connected Vehicle Engineer</strong> with <strong>7+ years</strong> of experience delivering end-to-end electric vehicle (EV) development from concept sizing through homologation and production fleet reliability. Core technical architect behind India's first 4-speed geared electric motorcycle platform, bridging V-model systems engineering, 1D MATLAB/Simulink plant digital twins, model-based calibration (MBC), CAN network management, edge-to-cloud diagnostics (A-FTA), and big data telematics (2M+ fleet km). Co-inventor of <strong>14 automotive patents</strong> (2 Granted, 12 Published) with proven impact: <strong>65% energy efficiency improvement</strong>, <strong>75% telematics data cost reduction</strong>, and <strong>&lt;3-minute automated cloud fault isolation</strong>.
       </p>
     </section>
 
-    <!-- 02: CORE COMPETENCIES & TECHNICAL SKILLS -->
+    <!-- CORE COMPETENCIES & TECHNICAL SKILLS -->
     <section class="resume-section">
-      <div class="section-header">
-        <span class="sec-tag">02</span>
-        <h2 class="sec-title">Core Competencies & Technical Skills</h2>
-        <div class="sec-line"></div>
+      <div class="section-title-row">
+        <h2 class="section-title">Core Competencies & Technical Skills</h2>
       </div>
-      <div class="skills-container">
-        <div class="skill-row">
-          <span class="skill-domain">Systems & VISA:</span>
-          <span class="skill-items">V-Model Development Lifecycle, Requirements Cascading (Vehicle Intent to Software Rules), Vehicle Integration & System Architecture (VISA), 6-ECU Architecture, Interface Control Documents (ICD), Failsafe Design (HARA, ASIL Principles, Limp-Home), 12-Mode Operational State Machine.</span>
+      <div class="competencies-grid">
+        <div class="comp-row">
+          <div class="comp-domain">Systems & VISA:</div>
+          <div class="comp-skills">V-Model Development Lifecycle, Requirements Cascading (Vehicle Intent to Software Rules), Vehicle Integration & System Architecture (VISA), 6-ECU Architecture, Interface Control Documents (ICD), Failsafe Design (HARA, ASIL Principles, Limp-Home Modes), 12-Mode Vehicle Operational State Machine.</div>
         </div>
-        <div class="skill-row">
-          <span class="skill-domain">Powertrain & Calibration:</span>
-          <span class="skill-items">1D Vehicle Plant Digital Twin (MATLAB/Simulink 0.01s fixed-step, 1RC/2RC Battery ECM), Multi-Speed Geared EV Drivetrain Sizing, Micro-Trip Urban Drive Cycle Synthesis (Speed Index, SAFD Clustering), Model-Based Calibration (MBC), Motor FOC Torque Maps, Flux Weakening, Multi-Gear Regen.</span>
+        <div class="comp-row">
+          <div class="comp-domain">Powertrain & Calibration:</div>
+          <div class="comp-skills">1D Vehicle Plant Digital Twin (MATLAB/Simulink 0.01s fixed-step, 1RC/2RC Battery ECM), Multi-Speed Geared EV Drivetrain Sizing, Micro-Trip Urban Drive Cycle Synthesis (Speed Index, SAFD Clustering), Model-Based Calibration (MBC), Motor FOC Torque Maps, Flux Weakening, Multi-Gear Regen.</div>
         </div>
-        <div class="skill-row">
-          <span class="skill-domain">Battery & Controls:</span>
-          <span class="skill-items">Battery State Estimation (SoC <span class="metric-highlight">±2.0%</span> accuracy, SoH, Dynamic SoP Derating Maps), Supervisory Torque Arbitration, Redundant Speed Plausibility (Resolver vs. ABS), Unified CAN Network Management (NM), UDS on CAN Diagnostics, Master DTC/DID Dictionary, Factory EOL Commissioning & OTA.</span>
+        <div class="comp-row">
+          <div class="comp-domain">Battery & Controls:</div>
+          <div class="comp-skills">Battery State Estimation (SoC <strong>±2.0%</strong> accuracy, SoH, Dynamic SoP Derating Maps), Supervisory Torque Arbitration, Redundant Speed Plausibility (Resolver vs. ABS), Unified CAN Network Management (NM), UDS on CAN Diagnostics, Master DTC/DID Dictionary, Factory EOL Commissioning & OTA.</div>
         </div>
-        <div class="skill-row">
-          <span class="skill-domain">Connected & Cloud:</span>
-          <span class="skill-items">In-Vehicle Edge Compute Architecture (Stream Suppression, Circular RAM DTC Evidence, IMU Semantic State Classification), Automated Fault Tree Analysis (A-FTA on Databricks Delta Lake), Fleet Telematics Pipelines (2M+ km), Bytebeam IoT (MQTT/TLS 1.3), ClickHouse.</span>
+        <div class="comp-row">
+          <div class="comp-domain">Connected & Cloud:</div>
+          <div class="comp-skills">In-Vehicle Edge Compute Architecture (Stream Suppression, Circular RAM DTC Evidence Packaging, IMU Semantic State Classification), Automated Fault Tree Analysis (A-FTA on Databricks Delta Lake), Fleet Telematics Pipelines (2M+ km), Bytebeam IoT (MQTT/TLS 1.3), ClickHouse.</div>
         </div>
-        <div class="skill-row">
-          <span class="skill-domain">Testing & Standards:</span>
-          <span class="skill-items">Chassis Dyno Loss Correlation, Runway Coastdown Road Load Derivation (A, B, C), NATRAX High-Speed Endurance, AIS-040 & AIS-039 Homologation, Dual Cradle Frame & Chassis CAD/FEA, Closed-Loop Liquid Cooling.</span>
+        <div class="comp-row">
+          <div class="comp-domain">Testing & Standards:</div>
+          <div class="comp-skills">Chassis Dyno Loss Correlation, Runway Coastdown Road Load Derivation (A, B, C), NATRAX High-Speed Endurance Testing, AIS-040 & AIS-039 Homologation, Dual Cradle Frame & Chassis CAD/FEA, Closed-Loop Liquid Cooling.</div>
         </div>
-        <div class="skill-row">
-          <span class="skill-domain">Tools & Engineering AI:</span>
-          <span class="skill-items"><strong>AI-Assisted Engineering</strong> (LLMs & Generative AI for Code/Data Pipelines, Prompt Engineering), MATLAB, Simulink, Stateflow, Simscape, Python (Pandas, NumPy, SciPy), PySpark, SQL, Vector CANoe, CANalyzer, PCAN-View, SolidWorks, Autodesk Inventor, ANSYS Mechanical/Thermal.</span>
+        <div class="comp-row">
+          <div class="comp-domain">Tools & AI Engineering:</div>
+          <div class="comp-skills"><strong>AI-Assisted Engineering</strong> (LLMs & Generative AI for Code/Data Pipelines, Prompt Engineering), MATLAB, Simulink, Stateflow, Simscape, Python (Pandas, NumPy, SciPy), PySpark, SQL, Vector CANoe, CANalyzer, PCAN-View, SolidWorks, Autodesk Inventor, ANSYS Mechanical/Thermal.</div>
         </div>
       </div>
     </section>
 
-    <!-- 03: PROFESSIONAL EXPERIENCE (PART 1) -->
-    <section class="resume-section" style="margin-bottom:0;">
-      <div class="section-header">
-        <span class="sec-tag">03</span>
-        <h2 class="sec-title">Professional Experience</h2>
-        <div class="sec-line"></div>
+    <!-- PROFESSIONAL EXPERIENCE - PAGE 1 -->
+    <section class="resume-section">
+      <div class="section-title-row">
+        <h2 class="section-title">Professional Experience</h2>
       </div>
 
-      <div class="job-block">
-        <div class="job-header-row">
-          <h3 class="job-title">Lead Engineer – System Engineering, Vehicle Calibration & Fleet Reliability</h3>
-          <span class="job-date-badge">AUG 2022 — PRESENT</span>
+      <div class="job-item">
+        <div class="job-header">
+          <div class="job-role">Lead Engineer – System Engineering, Vehicle Calibration & Fleet Reliability</div>
+          <div class="job-date">AUG 2022 — PRESENT</div>
         </div>
-        <div class="job-company-row">
-          <span class="job-company">Matter Motor Works</span> • Ahmedabad, Gujarat, India
-          <span class="job-scope-tag">[Platform Scope: Production & Next-Gen Multi-Speed Geared EV Platforms]</span>
+        <div class="job-meta">
+          <span class="job-company">Matter Motor Works</span>
+          <span>•</span>
+          <span>Ahmedabad, Gujarat, India</span>
+          <span class="job-scope">[Production & Next-Generation Multi-Speed Geared EV Platforms]</span>
         </div>
 
-        <div class="sub-discipline">Systems Engineering, VISA Architecture & Battery Algorithms</div>
-        <ul class="bullet-list">
-          <li><strong>V-Model & Multi-ECU Systems Architecture:</strong> Led end-to-end V-model requirements cascading (Vehicle Intent to Functional, System, and Software rules) across vehicle-level functions and <strong>6 core domain ECUs</strong> (BMS, DTU, BCU, VIC, OBC, ABS), defining cross-ECU requirements covering CAN Matrix, UDS Diagnostics, Network Management, OTA, and Power Sequencing. Developed Remaining Drivable Range (RDR) and Time-to-Charge (TTC) algorithms.</li>
-          <li><strong>Battery State Estimation & Dynamic SoP Derating:</strong> Authored formal system requirement specification (<code>MMW-SE-REQ-1002-V1.0</code>) defining SoC (<span class="metric-highlight">±2.0%</span> lifetime accuracy with temperature/IR compensation and rest OCV recalibration), SoH tracking, and Dynamic SoP current derating maps across -20°C to +59°C to safeguard batteries.</li>
-          <li><strong>Supervisory Controls & CAN Network Management:</strong> Architected the <strong>12-mode vehicle operational state machine</strong>, master torque arbitration, and dual-redundant speed plausibility logic (motor resolver vs. Bosch ABS wheel speeds) with clutch-slip intervention and brake-throttle cutoffs. Formulated unified CAN NM specifications governing node heartbeats, missing-message timeouts, bus-off auto-recovery, flashing NM suppression, and UDS master DTC/DID dictionaries.</li>
-        </ul>
-
-        <div class="sub-discipline">1D Plant Digital Twin, Drive Cycle Synthesis & Powertrain Calibration</div>
-        <ul class="bullet-list">
-          <li><strong>MBSE Powertrain Sizing & Drive Cycle Generation:</strong> Built 1D vehicle plant digital twins in MATLAB/Simulink (0.01s fixed-step) coupling longitudinal road load physics, 1RC/2RC battery ECM, and 2D motor/inverter loss contours. Synthesized custom urban drive cycles from <strong>1,070+ km</strong> of road telemetry using micro-trip segmentation, Speed Index, and SAFD clustering; extracted empirical C-rate histograms establishing that <strong>95.5%</strong> of urban riding occurs below 1C discharge, using this critical insight to optimize battery cell thermal sizing, pack capacity, and 4-speed powertrain gear ratios (<strong>&gt;520 Nm</strong> rear-wheel torque, <strong>≥22°</strong> gradability, <strong>88–93%</strong> cruising efficiency).</li>
-          <li><strong>Model-Based Calibration & Efficiency Breakthrough (<span class="metric-highlight">65% Gain</span>):</strong> Calibrated motor FOC torque maps, multi-mode throttle maps (Eco/City/Sport), and multi-gear regenerative braking, achieving a <strong>65% improvement</strong> in vehicle energy efficiency and deploying an active speed-rate-of-change damper (<strong>&lt;40 ms</strong>) via OTA to eliminate high-speed clutch disengagement rev-flare.</li>
-          <li><strong>Dyno Correlation, Runway Coastdown & Homologation:</strong> Directed chassis dyno driveline loss walks (<strong>&lt;3%</strong> simulation correlation), 12 bidirectional runway coastdown runs at Dhana Airstrip to derive road load coefficients (A, B, C), and 60-minute continuous WOT endurance trials at NATRAX HST (105-112 km/h) validating liquid cooling thermal equilibrium. Secured <strong>AIS-040 (170 km+ certified range)</strong> and <strong>AIS-039</strong> homologation.</li>
+        <!-- SUBSECTION 1 -->
+        <div class="discipline-header">Systems Engineering, VISA Architecture & Battery Algorithms</div>
+        <ul class="experience-bullets">
+          <li>
+            <strong>V-Model & Multi-ECU Systems Architecture:</strong> Led end-to-end V-model requirements cascading (Vehicle Intent to Functional, System, and Software rules) across vehicle-level functions and <strong>6 core domain ECUs</strong> (BMS, DTU, BCU, VIC, OBC, ABS), defining cross-ECU requirements covering CAN Matrix, UDS Diagnostics, Network Management, OTA, and Power Sequencing. Developed Remaining Drivable Range (RDR) and Time-to-Charge (TTC) algorithms.
+          </li>
+          <li>
+            <strong>Battery State Estimation & Dynamic SoP Derating:</strong> Authored formal system requirement specification (MMW-SE-REQ-1002-V1.0) defining SoC (<span class="metric-highlight">±2.0%</span> lifetime accuracy with temperature/IR compensation and rest OCV recalibration), SoH tracking, and Dynamic SoP current derating maps across -20°C to +59°C to safeguard batteries.
+          </li>
+          <li>
+            <strong>Supervisory Controls & CAN Network Management:</strong> Architected the <strong>12-mode vehicle operational state machine</strong>, master torque arbitration, and dual-redundant speed plausibility logic (motor resolver vs. Bosch ABS wheel speeds) with clutch-slip intervention and brake-throttle cutoffs. Formulated unified CAN NM specifications governing node heartbeats, missing-message timeouts, bus-off auto-recovery, flashing NM suppression, and UDS master DTC/DID dictionaries.
+          </li>
         </ul>
       </div>
     </section>
+
   </div>
 
   <!-- PAGE 1 FOOTER -->
   <div class="page-footer">
-    <span>ROHAN LODAYA — CURRICULUM VITAE</span>
-    <span>CONFIDENTIAL / ATS VERIFIED</span>
-    <span>PAGE 01 OF 02</span>
+    <span>Rohan Lodaya — Curriculum Vitae</span>
+    <span>Confidential • ATS Verified</span>
+    <span>Page 01 of 02</span>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════
+
+<!-- ═══════════════════════════════════════════════════════════════
      PAGE 2
-     ═══════════════════════════════════════════════════════ -->
+     ═══════════════════════════════════════════════════════════════ -->
 <div class="page" id="page2">
-  <div>
-    <!-- PAGE 2 RUNNING HEADER -->
+  <div class="page-content">
+
+    <!-- PAGE 2 HEADER -->
     <div class="page2-header">
-      <div class="page2-brand">ROHAN LODAYA <span>//</span> LEAD AUTOMOTIVE SYSTEMS & CALIBRATION ENGINEER</div>
+      <div class="page2-name">Rohan Lodaya <span>— Lead Automotive Systems & Calibration Engineer</span></div>
       <div class="page-num">PAGE 02 OF 02</div>
     </div>
 
-    <!-- EXPERIENCE CONTINUED: EDGE & CLOUD -->
+    <!-- EXPERIENCE CONTINUED -->
     <section class="resume-section">
-      <div class="job-block">
-        <div class="job-header-row" style="margin-bottom: 2px;">
-          <h3 class="job-title" style="font-size: 9.1pt; color: #deddd7;">Lead Engineer (Continued) — Edge Computing, Diagnostics & Big Data</h3>
-          <span class="job-date-badge">AUG 2022 — PRESENT</span>
+      <div class="job-item">
+        <div class="job-header">
+          <div class="job-role">Lead Engineer (Continued) — Powertrain Calibration & Connected Systems</div>
+          <div class="job-date">AUG 2022 — PRESENT</div>
         </div>
-        <div class="sub-discipline" style="margin-top:2px;">Edge Computing, Cloud Diagnostics (A-FTA) & Fleet Big Data Analytics</div>
-        <ul class="bullet-list">
-          <li><strong>Edge Compute & Telematics Cost Reduction (<span class="metric-highlight">75%</span>):</strong> Architected in-vehicle edge computing requirements (<code>STK-EDGE-STRSUP</code>) implementing stream suppression, circular RAM buffers for [-60s, +10s] DTC evidence packaging, and on-edge IMU semantic state classification (Parked, Riding, Leaning, Falling, Tow/Theft), slashing cellular SIM bandwidth and cloud ingestion costs by <strong>75%</strong>.</li>
-          <li><strong>Automated Fault Tree Analysis (A-FTA) & Cloud Diagnostics:</strong> Authored the A-FTA Statement of Requirements (<code>MMW-TF-SOR-0001-V1.0</code>) and built the cloud inference engine on Databricks Delta Lake across 60+ CAN signals from 5 ECUs, cutting root-cause MTTD from 48+ hours to <strong>&lt;3 minutes</strong> (<strong>&gt;96% accuracy</strong>).</li>
-          <li><strong>Fleet Big Data & Powertrain Design Validation (<span class="metric-highlight">2M+ km</span>):</strong> Engineered scalable Python/PySpark/MATLAB pipelines analyzing <strong>2M+ real-world fleet kilometers</strong>, <strong>180,000+ customer rides</strong>, and <strong>560,000+ gear shifts</strong> across India. Leveraged this massive dataset to evaluate real-world seasonal sensitivity (21.4% summer-to-winter variance), rigorously validate that supervisory system calibration performed as designed, and reinforce long-term confidence in driveline and powertrain sizing.</li>
-          <li><strong>Command Center & Fleet Field Engineering:</strong> Led technical rapid-response and fleet evaluation protocols, authoring the comprehensive <strong>14-SOP Field Engineering Manual</strong> to standardize high-voltage safety, diagnostic triage, and field resolution across service hubs nationwide.</li>
+
+        <!-- SUBSECTION 2 -->
+        <div class="discipline-header">1D Plant Digital Twin, Drive Cycle Synthesis & Powertrain Calibration</div>
+        <ul class="experience-bullets">
+          <li>
+            <strong>MBSE Powertrain Sizing & Drive Cycle Generation:</strong> Built 1D vehicle plant digital twins in MATLAB/Simulink (0.01s fixed-step) coupling road load physics, 1RC/2RC battery ECM, and 2D motor loss contours. Synthesized custom urban drive cycles from <strong>1,070+ km</strong> of telemetry via micro-trip segmentation and SAFD clustering; established <strong>95.5%</strong> of urban riding is &lt;1C discharge to optimize battery thermal sizing, pack capacity, and 4-speed gear ratios (&gt;520 Nm torque, ≥22° gradability, 88–93% cruising efficiency).
+          </li>
+          <li>
+            <strong>Model-Based Calibration & Efficiency Breakthrough (<span class="metric-highlight">65% Gain</span>):</strong> Calibrated motor FOC torque maps, multi-mode throttle curves (Eco/City/Sport), and multi-gear regenerative braking, achieving a <strong>65% improvement</strong> in vehicle energy efficiency; deployed an active speed-rate-of-change damper (&lt;40 ms) via OTA to eliminate high-speed clutch disengagement rev-flare.
+          </li>
+          <li>
+            <strong>Dyno Correlation, Runway Coastdown & Homologation:</strong> Directed chassis dyno driveline loss walks (&lt;3% simulation correlation), 12 bidirectional runway coastdown runs at Dhana Airstrip to derive road load coefficients (A, B, C), and 60-min continuous WOT endurance trials at NATRAX HST (105–112 km/h) validating thermal equilibrium. Secured <strong>AIS-040</strong> (<span class="metric-highlight">170+ km</span> certified range) and <strong>AIS-039</strong> homologation.
+          </li>
+        </ul>
+
+        <!-- SUBSECTION 3 -->
+        <div class="discipline-header" style="margin-top: 5px;">Edge Computing, Cloud Diagnostics (A-FTA) & Fleet Big Data Analytics</div>
+        <ul class="experience-bullets">
+          <li>
+            <strong>Edge Compute & Telematics Cost Reduction (<span class="metric-highlight">75%</span>):</strong> Architected in-vehicle edge computing requirements (STK-EDGE-STRSUP) with stream suppression, circular RAM buffers for [-60s, +10s] DTC evidence capture, and on-edge IMU semantic state classification (Parked, Riding, Leaning, Tow/Theft), slashing cellular SIM bandwidth and cloud ingestion costs by <strong>75%</strong>.
+          </li>
+          <li>
+            <strong>Automated Fault Tree Analysis (A-FTA) & Cloud Diagnostics:</strong> Authored A-FTA requirements (MMW-TF-SOR-0001-V1.0) and engineered cloud causality inference on Databricks Delta Lake across 60+ CAN signals from 5 ECUs, reducing root-cause MTTD from 48+ hours to <span class="metric-highlight">&lt;3 minutes</span> (<strong>&gt;96% accuracy</strong>).
+          </li>
+          <li>
+            <strong>Fleet Big Data & Powertrain Design Validation (2M+ km):</strong> Engineered scalable Python/PySpark/MATLAB pipelines analyzing <strong>2M+ real-world fleet kilometers</strong>, 180,000+ customer rides, and 560,000+ gear shifts; evaluated seasonal variance (21.4% summer/winter sensitivity) to validate supervisory calibrations and reinforce powertrain durability.
+          </li>
+          <li>
+            <strong>Command Center & Fleet Field Engineering:</strong> Led technical rapid-response and fleet evaluation protocols; authored the comprehensive <strong>14-SOP Field Engineering Manual</strong> standardizing HV safety, diagnostic triage, and field resolution across service hubs nationwide.
+          </li>
         </ul>
       </div>
 
-      <!-- SENIOR ENGINEER ROLE -->
-      <div class="job-block" style="margin-top: 7px;">
-        <div class="job-header-row">
-          <h3 class="job-title">Senior Engineer – Vehicle Engineering & Mechanical Architecture</h3>
-          <span class="job-date-badge">JUN 2019 — JUL 2022</span>
+      <!-- SENIOR ENGINEER -->
+      <div class="job-item" style="margin-top: 6px;">
+        <div class="job-header">
+          <div class="job-role">Senior Engineer – Vehicle Engineering & Mechanical Architecture</div>
+          <div class="job-date">JUN 2019 — JUL 2022</div>
         </div>
-        <div class="job-company-row">
-          <span class="job-company">Matter Motor Works</span> • Ahmedabad, Gujarat, India
+        <div class="job-meta">
+          <span class="job-company">Matter Motor Works</span>
+          <span>•</span>
+          <span>Ahmedabad, Gujarat, India</span>
         </div>
-        <ul class="bullet-list">
-          <li><strong>Chassis Structural Design & FEA Optimization:</strong> Led 3D CAD design, static/modal/fatigue FEA, and durability optimization of the dual cradle tubular motorcycle frame (<strong>Granted Patent</strong>), swingarm, cast aluminum wheel rims, and grabrails, maximizing torsional stiffness and mass distribution.</li>
-          <li><strong>Vehicle Target Setting, Benchmarking & EBOM Release:</strong> Defined prototype vehicle target matrices (speed, acceleration, range, gradability, battery packaging); led physical competitor teardown and chassis dyno benchmarking at ARAI (Pune); directed pre-PLM EBOM, 2D GD&T drawings, and supplier sign-offs.</li>
+        <ul class="experience-bullets">
+          <li>
+            <strong>Chassis Structural Design & FEA Optimization:</strong> Led 3D CAD design, static/modal/fatigue FEA, and durability optimization of the dual cradle tubular motorcycle frame (<strong>Granted Patent</strong>), swingarm, cast aluminum wheel rims, and grabrails, maximizing torsional stiffness and mass distribution.
+          </li>
+          <li>
+            <strong>Vehicle Target Setting, Benchmarking & EBOM Release:</strong> Defined prototype vehicle target matrices (speed, acceleration, range, gradability, battery packaging); led physical competitor teardown and chassis dyno benchmarking at ARAI (Pune); directed pre-PLM EBOM, 2D GD&T drawings, and supplier sign-offs.
+          </li>
         </ul>
       </div>
     </section>
 
-    <!-- 04: INTELLECTUAL PROPERTY & PATENTS -->
+    <!-- INTELLECTUAL PROPERTY & PATENTS -->
     <section class="resume-section">
-      <div class="section-header">
-        <span class="sec-tag">04</span>
-        <h2 class="sec-title">Intellectual Property & Patents (14 Patents: 2 Granted, 12 Published)</h2>
-        <div class="sec-line"></div>
+      <div class="section-title-row">
+        <h2 class="section-title">Intellectual Property & Patents (14 Patents: 2 Granted, 12 Published)</h2>
+        <a href="https://drive.google.com/drive/folders/1Mt3-kgL56WaZsB3JA_qXO4s9jQzX5CFN?usp=drive_link" target="_blank" class="section-link">Google Drive Patent Archive ↗</a>
       </div>
-      <div class="patents-intro">
-        <span>Co-inventor across core vehicle architecture, BMS algorithms, controls, and cloud diagnostics.</span>
-        <a class="patents-link" href="https://drive.google.com/drive/folders/1Mt3-kgL56WaZsB3JA_qXO4s9jQzX5CFN?usp=drive_link">Official Drive Archive ↗</a>
-      </div>
-
-      <!-- Highlighted Granted Patents -->
-      <div class="patents-granted-box">
-        <div class="patents-granted-title">
-          <span class="patent-granted-badge">GRANTED PATENTS (2)</span>
-          <span>Officially Granted Intellectual Property</span>
+      <div class="patents-container">
+        <div class="patents-granted-card">
+          <div class="patent-item">
+            <span class="patent-granted-badge">GRANTED PATENT 1</span>
+            <strong>A Dual Cradle Frame for an Electric Vehicle:</strong> High-rigidity tubular chassis housing mid-drive geared powertrain & integrated liquid-cooled battery pack.
+          </div>
+          <div class="patent-item">
+            <span class="patent-granted-badge">GRANTED PATENT 2</span>
+            <strong>Method and System for Geofencing of Electric Vehicle:</strong> Connected telematics boundary tracking, dynamic speed limiting & remote anti-theft immobilization.
+          </div>
         </div>
-        <p style="font-size: 7.9pt; line-height: 1.36; color: #d0cfc8; margin-bottom: 2.5px;">
-          • <strong>A Dual Cradle Frame for an Electric Vehicle:</strong> High-rigidity chassis architecture housing mid-drive geared powertrain & integrated liquid-cooled battery pack.
-        </p>
-        <p style="font-size: 7.9pt; line-height: 1.36; color: #d0cfc8;">
-          • <strong>Method and System for Geofencing of Electric Vehicle:</strong> Connected telematics boundary tracking, dynamic speed limiting & remote anti-theft immobilization.
-        </p>
-      </div>
-
-      <div style="font-size: 7.9pt; line-height: 1.36; color: #b0afa9;">
-        <div class="patent-group-title">PUBLISHED PATENTS — POWERTRAIN, RANGE & CONTROLS (5)</div>
-        <p style="margin-bottom: 3px;">• Control Power Flow of Batterypack(s) • Real-Time Gear Shift Advisory • Dynamic Remaining Drivable Range (RDR/DTE with polarization & thermal derating) • Automated Deactivation of Turn Indicators (IMU Trajectory) • EV Charging System & Protocols (IS17017-1 CP/PP & thermal derating).</p>
-
-        <div class="patent-group-title">PUBLISHED PATENTS — SAFETY, DIAGNOSTICS & TELEMATICS (7)</div>
-        <p>• Crash & Fall Detection (Multi-axis IMU HV cutoff) • Crash Detection (Edge CAN/accelerometer/HVIL fusion) • Drive-train Unit Fault Diagnostics • On-Board Charger Fault Diagnostics • Vehicle Component Diagnostics (Cloud A-FTA) • Instrument Cluster Diagnostics • PKE System Diagnostics.</p>
+        <div class="patents-published-group">
+          <strong>Published Patents — Powertrain, Range & Controls (5):</strong> Power Flow Control of Batterypack(s) • Real-Time Gear Shift Advisory • Dynamic Remaining Drivable Range (RDR/DTE with polarization & thermal derating) • Automated Turn Indicator Deactivation • EV Charging Protocols (IS17017-1 CP/PP).
+        </div>
+        <div class="patents-published-group">
+          <strong>Published Patents — Safety, Diagnostics & Telematics (7):</strong> Crash & Fall Detection (multi-axis IMU HV cutoff) • Edge CAN/Accelerometer Crash Detection • Drivetrain Fault Diagnostics • On-Board Charger Diagnostics • Vehicle Component Diagnostics (Cloud A-FTA) • Instrument Cluster Diagnostics • PKE System Diagnostics.
+        </div>
       </div>
     </section>
 
-    <!-- 05: EDUCATION, ACADEMIC RESEARCH & BAJA -->
+    <!-- EDUCATION & ACADEMIC RESEARCH -->
     <section class="resume-section">
-      <div class="section-header">
-        <span class="sec-tag">05</span>
-        <h2 class="sec-title">Education, Academic Research & Collegiate Projects</h2>
-        <div class="sec-line"></div>
+      <div class="section-title-row">
+        <h2 class="section-title">Education, Academic Research & Collegiate Projects</h2>
       </div>
-      <div class="edu-row">
-        <div><span class="edu-degree">Bachelor of Technology (B.Tech) in Mechanical Engineering</span> — <span class="edu-school">Pandit Deendayal Petroleum University (PDPU), Gandhinagar</span></div>
+      <div class="edu-item">
+        <div class="edu-left">
+          <span class="edu-degree">Bachelor of Technology (B.Tech) in Mechanical Engineering</span>
+          <span class="edu-inst">— Pandit Deendayal Petroleum University (PDPU)</span>
+        </div>
         <div class="edu-meta">2019 | CGPA: 8.8 / 10.0</div>
       </div>
-      <div class="edu-row">
-        <div><span class="edu-degree">Diploma in Mechanical Engineering</span> — <span class="edu-school">Gujarat Technological University (GTU), Ahmedabad</span></div>
+      <div class="edu-item">
+        <div class="edu-left">
+          <span class="edu-degree">Diploma in Mechanical Engineering</span>
+          <span class="edu-inst">— Gujarat Technological University (GTU)</span>
+        </div>
         <div class="edu-meta">2016 | CGPA: 9.4 / 10.0</div>
       </div>
-      <div class="edu-row">
-        <div><span class="edu-degree">Secondary School Certificate (SSC)</span> — <span class="edu-school">Nand Vidya Niketan, Jamnagar</span></div>
+      <div class="edu-item">
+        <div class="edu-left">
+          <span class="edu-degree">Secondary School Certificate (SSC)</span>
+          <span class="edu-inst">— Nand Vidya Niketan, Jamnagar</span>
+        </div>
         <div class="edu-meta">2013 | CGPA: 8.6 / 10.0</div>
       </div>
-
-      <div class="baja-block">
-        • <strong>BAJA SAEINDIA 2018 (Team CAZR):</strong> Team Lead, Simulation & Virtual Validation; led structural FEA and fatigue sub-team for an All-Terrain Vehicle (ATV), topology-optimizing aluminum wheel hubs and steering knuckles to reduce unsprung mass while increasing factor of safety by 25%.
-      </div>
-      <div class="research-block">
-        • <strong>Academic Research Publications:</strong> (1) <em>Bearing Fault Diagnosis using EEMD, CMSE, J48 Decision Trees & ANN</em> (vibration signal decomposition and feature extraction); (2) <em>Residential Building Heating and Cooling Load Prediction using Support Vector Machines (SVM) & Isotonic Regression</em>.
+      <div class="collegiate-row">
+        <strong>Collegiate & Publications:</strong> <strong>BAJA SAEINDIA 2018 (Team CAZR):</strong> Team Lead, Simulation & Virtual Validation; led structural FEA for ATV chassis & components. • <strong>Research Publications:</strong> (1) Bearing Fault Diagnosis using EEMD & Decision Trees; (2) Building Thermal Load Prediction via Support Vector Machines.
       </div>
     </section>
 
-    <!-- 06: REGULATORY STANDARDS & LANGUAGES -->
-    <section class="resume-section" style="margin-bottom:0;">
-      <div class="section-header">
-        <span class="sec-tag">06</span>
-        <h2 class="sec-title">Regulatory Standards & Languages</h2>
-        <div class="sec-line"></div>
+    <!-- STANDARDS & LANGUAGES -->
+    <section class="resume-section" style="margin-bottom: 0;">
+      <div class="section-title-row">
+        <h2 class="section-title">Regulatory Standards & Languages</h2>
       </div>
-      <div class="standards-pills">
-        <span class="std-pill"><strong>AIS-003</strong> Gradeability</span>
-        <span class="std-pill"><strong>AIS-039</strong> Energy Cons.</span>
-        <span class="std-pill"><strong>AIS-040</strong> Range (170+ km)</span>
-        <span class="std-pill"><strong>AIS-041</strong> Net Power</span>
-        <span class="std-pill"><strong>AIS-049</strong> Type Approval</span>
-        <span class="std-pill"><strong>AIS-071</strong> Controls</span>
-        <span class="std-pill"><strong>AIS-123</strong> Propulsion</span>
-        <span class="std-pill"><strong>AIS-126</strong> Tell-Tales</span>
-        <span class="std-pill"><strong>AIS-146</strong> Stands</span>
-        <span class="std-pill"><strong>AIS-148</strong> Footrests</span>
-        <span class="std-pill"><strong>AIS-156</strong> Battery Safety</span>
-        <span class="std-pill"><strong>AIS-173</strong> AVAS Alert</span>
-        <span class="std-pill"><strong>AIS-189</strong> Cyber Security</span>
-        <span class="std-pill"><strong>AIS-190</strong> Software (SUMS)</span>
-        <span class="std-pill"><strong>IS 3028</strong> Noise</span>
-        <span class="std-pill"><strong>IS 10278</strong> Max Speed</span>
-        <span class="std-pill"><strong>IS 10407</strong> Acceleration</span>
+      <div class="standards-wrap">
+        <span class="std-tag"><strong>AIS-003</strong> Gradeability</span>
+        <span class="std-tag"><strong>AIS-039</strong> Energy Consumption</span>
+        <span class="std-tag"><strong>AIS-040</strong> Range (170+ km)</span>
+        <span class="std-tag"><strong>AIS-041</strong> Continuous Power</span>
+        <span class="std-tag"><strong>AIS-049</strong> Type Approval</span>
+        <span class="std-tag"><strong>AIS-071</strong> Controls</span>
+        <span class="std-tag"><strong>AIS-123</strong> Propulsion</span>
+        <span class="std-tag"><strong>AIS-126</strong> Tell-Tales</span>
+        <span class="std-tag"><strong>AIS-146</strong> Stands</span>
+        <span class="std-tag"><strong>AIS-148</strong> Footrests</span>
+        <span class="std-tag"><strong>AIS-156</strong> Battery Safety</span>
+        <span class="std-tag"><strong>AIS-173</strong> AVAS Alert</span>
+        <span class="std-tag"><strong>AIS-189</strong> Cyber Security</span>
+        <span class="std-tag"><strong>AIS-190</strong> Software (SUMS)</span>
+        <span class="std-tag"><strong>IS 3028</strong> Noise</span>
+        <span class="std-tag"><strong>IS 10278</strong> Speed</span>
+        <span class="std-tag"><strong>IS 10407</strong> Acceleration</span>
       </div>
-      <div class="lang-row">
+      <div class="languages-row">
         <strong>Languages:</strong> <span>English</span> (Full Professional), <span>Hindi</span> (Native / Bilingual), <span>Gujarati</span> (Native / Bilingual)
       </div>
     </section>
+
   </div>
 
   <!-- PAGE 2 FOOTER -->
   <div class="page-footer">
-    <span>ROHAN LODAYA — CURRICULUM VITAE</span>
-    <span>CONFIDENTIAL / ATS VERIFIED</span>
-    <span>PAGE 02 OF 02</span>
+    <span>Rohan Lodaya — Curriculum Vitae</span>
+    <span>Confidential • ATS Verified</span>
+    <span>Page 02 of 02</span>
   </div>
 </div>
 

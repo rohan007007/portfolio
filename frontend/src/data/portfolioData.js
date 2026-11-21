@@ -1,5 +1,16 @@
 export const GOOGLE_DRIVE_PATENTS_LINK = "https://drive.google.com/drive/folders/1Mt3-kgL56WaZsB3JA_qXO4s9jQzX5CFN?usp=drive_link";
-export const RESUME_PDF_PATH = "/Rohan_Lodaya_ATS_Resume.pdf";
+
+const getResumePdfPath = () => {
+  if (typeof window !== "undefined" && window.location.pathname.startsWith("/portfolio")) {
+    return "/portfolio/Rohan_Lodaya_ATS_Resume.pdf";
+  }
+  if (process.env.PUBLIC_URL && process.env.PUBLIC_URL !== ".") {
+    return `${process.env.PUBLIC_URL}/Rohan_Lodaya_ATS_Resume.pdf`;
+  }
+  return "./Rohan_Lodaya_ATS_Resume.pdf";
+};
+
+export const RESUME_PDF_PATH = getResumePdfPath();
 
 // 1. Core Competencies & Technical Skills (Replacing the experience cards in section 01)
 export const coreCompetencies = [
