@@ -95,7 +95,7 @@ export function Hero3DModel() {
       powerPreference: "high-performance",
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.35;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -105,30 +105,21 @@ export function Hero3DModel() {
     const envMap = createStudioEnvMap(renderer);
     scene.environment = envMap;
 
-    // Lighting (Studio Rim & Key Setup)
-    // 1. Soft cool ambient
-    const ambientLight = new THREE.AmbientLight(0x181a20, 1.8);
+    // Lighting (Studio Rim & Key Setup — Optimized 3-light rig)
+    const ambientLight = new THREE.AmbientLight(0x22242a, 2.0);
     scene.add(ambientLight);
 
-    // 2. Main Key Light (Top-Front-Right)
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.6);
-    keyLight.position.set(4, 6, 4);
+    const keyLight = new THREE.DirectionalLight(0xffffff, 3.4);
+    keyLight.position.set(4, 5, 4);
     scene.add(keyLight);
 
-    // 3. High-Contrast Specular Rim Light (Top-Rear-Left)
-    const rimLight1 = new THREE.DirectionalLight(0xffffff, 4.5);
+    const rimLight1 = new THREE.DirectionalLight(0xffffff, 4.2);
     rimLight1.position.set(-5, 4.5, -4);
     scene.add(rimLight1);
 
-    // 4. Acid-Yellow Cyber Glow Backlight
     const acidLight = new THREE.DirectionalLight(0xd9ff3f, 2.2);
     acidLight.position.set(2, -2, -3);
     scene.add(acidLight);
-
-    // 5. Fill Light from below
-    const fillLight = new THREE.DirectionalLight(0x2a2d35, 1.6);
-    fillLight.position.set(0, -3, 2);
-    scene.add(fillLight);
 
     // Model Hierarchy:
     // scene -> pivotGroup (handles user click-drag rotation) -> bikeGroup (handles cursor lean/pitch/idle) -> gltfScene
@@ -141,28 +132,22 @@ export function Hero3DModel() {
     animState.current.bikeGroup = bikeGroup;
 
     // ─────────────────────────────────────────────────────────────
-    // Monochromatic Black Tone Materials (Murdered-Out Cyber Stealth)
+    // High-Efficiency PBR Black Tone Materials (GPU Optimized)
     // ─────────────────────────────────────────────────────────────
     // 1. Satin Deep Obsidian Black (Main Body panels)
-    const satinObsidianMaterial = new THREE.MeshPhysicalMaterial({
+    const satinObsidianMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x0c0d10),
-      metalness: 0.22,
-      roughness: 0.38,
-      clearcoat: 0.45,
-      clearcoatRoughness: 0.2,
-      reflectivity: 0.8,
-      envMapIntensity: 1.4,
+      metalness: 0.25,
+      roughness: 0.35,
+      envMapIntensity: 1.2,
     });
 
     // 2. High-Gloss Obsidian Mirror Black (Tank, visor accents)
-    const glossObsidianMaterial = new THREE.MeshPhysicalMaterial({
+    const glossObsidianMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x040507),
-      metalness: 0.15,
-      roughness: 0.05,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
-      reflectivity: 0.95,
-      envMapIntensity: 1.8,
+      metalness: 0.20,
+      roughness: 0.08,
+      envMapIntensity: 1.6,
     });
 
     // 3. Polished Gunmetal / Dark Chrome (Mechanical powertrain, frame, swingarm, motor)
@@ -170,13 +155,13 @@ export function Hero3DModel() {
       color: new THREE.Color(0x1e2026),
       metalness: 0.88,
       roughness: 0.22,
-      envMapIntensity: 1.8,
+      envMapIntensity: 1.6,
     });
 
     // 4. Vulcanized Matte Black Rubber (Tires)
     const tireRubberMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x0a0b0d),
-      roughness: 0.88,
+      roughness: 0.90,
       metalness: 0.05,
     });
 
@@ -185,16 +170,15 @@ export function Hero3DModel() {
       color: new THREE.Color(0x0d0e11),
       metalness: 0.90,
       roughness: 0.18,
-      envMapIntensity: 1.8,
+      envMapIntensity: 1.6,
     });
 
     // 6. Inverted Fork Stanchions (Anodized Bronze / Ohlins Gold)
-    const forkStanchionMaterial = new THREE.MeshPhysicalMaterial({
+    const forkStanchionMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0xcca038),
-      metalness: 0.85,
-      roughness: 0.22,
-      clearcoat: 0.6,
-      envMapIntensity: 1.6,
+      metalness: 0.88,
+      roughness: 0.20,
+      envMapIntensity: 1.5,
     });
 
     // 7. Darkened Steel / Carbon-Ceramic Brake Discs
@@ -202,34 +186,33 @@ export function Hero3DModel() {
       color: new THREE.Color(0x282b33),
       metalness: 0.80,
       roughness: 0.25,
-      envMapIntensity: 1.4,
+      envMapIntensity: 1.2,
     });
 
     // 8. Cyber Neon Acid-Yellow LED (Headlight / Projectors / DRL)
     const acidLedMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0xd9ff3f),
       emissive: new THREE.Color(0xd9ff3f),
-      emissiveIntensity: 3.2,
-      roughness: 0.1,
+      emissiveIntensity: 2.8,
+      roughness: 0.2,
     });
 
     // 9. Smoked Crimson LED (Brake light)
     const brakeLedMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0xff1e38),
       emissive: new THREE.Color(0xff1e38),
-      emissiveIntensity: 3.0,
+      emissiveIntensity: 2.8,
       roughness: 0.2,
     });
 
     // 10. Tinted Racing Visor Glass
-    const tintedCanopyMaterial = new THREE.MeshPhysicalMaterial({
+    const tintedCanopyMaterial = new THREE.MeshStandardMaterial({
       color: new THREE.Color(0x040507),
       metalness: 0.1,
-      roughness: 0.06,
-      transmission: 0.85,
+      roughness: 0.1,
       transparent: true,
-      opacity: 0.6,
-      envMapIntensity: 1.5,
+      opacity: 0.65,
+      envMapIntensity: 1.4,
     });
 
     // Load Model with Draco decompression support
@@ -257,8 +240,6 @@ export function Hero3DModel() {
         // 2. Strip all graphic decals/stickers & apply tone materials
         root.traverse((node) => {
           if (!node.isMesh) return;
-          node.castShadow = true;
-          node.receiveShadow = true;
 
           const name = (node.name || "").toLowerCase();
 
@@ -414,15 +395,15 @@ export function Hero3DModel() {
     window.addEventListener("resize", onResize);
 
     // ─────────────────────────────────────────────────────────────
-    // Main 60fps Animation Loop
+    // Viewport-Aware Animation Loop (0% GPU Load when scrolled past)
     // ─────────────────────────────────────────────────────────────
-    let reqId;
+    let reqId = null;
+    let isVisible = true;
     const clock = new THREE.Clock();
 
     const animate = () => {
       reqId = requestAnimationFrame(animate);
 
-      const delta = clock.getDelta();
       const time = clock.getElapsedTime();
       const state = animState.current;
 
@@ -463,11 +444,34 @@ export function Hero3DModel() {
       renderer.render(scene, camera);
     };
 
-    animate();
+    // IntersectionObserver halts WebGL rendering whenever the hero section is offscreen
+    // Guaranteed 0% Three.js GPU consumption when reading lower sections
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          if (!reqId) {
+            clock.start();
+            reqId = requestAnimationFrame(animate);
+          }
+        } else {
+          if (reqId) {
+            cancelAnimationFrame(reqId);
+            reqId = null;
+          }
+        }
+      },
+      { threshold: 0.02 }
+    );
+    io.observe(container);
+
+    // Initial render start
+    reqId = requestAnimationFrame(animate);
 
     // Cleanup
     return () => {
-      cancelAnimationFrame(reqId);
+      io.disconnect();
+      if (reqId) cancelAnimationFrame(reqId);
       window.removeEventListener("pointermove", onWindowPointerMove);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);

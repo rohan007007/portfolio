@@ -83,7 +83,7 @@ function SectionHeadingWiped({ index, line1, line2, description, indexColor }) {
       scrollTrigger: {
         trigger: el,
         start: "top 85%",
-        toggleActions: "play reverse play reverse"
+        toggleActions: "play none none reverse"
       }
     });
 
@@ -247,8 +247,12 @@ function ProjectExpandPanel({ project, isOpen, onClose }) {
         opacity: 1,
         duration: 0.5,
         ease: "power2.out",
+        onUpdate: () => {
+          ScrollTrigger.refresh();
+        },
         onComplete: () => {
           el.style.height = "auto";
+          ScrollTrigger.refresh();
         }
       });
     } else {
@@ -260,8 +264,12 @@ function ProjectExpandPanel({ project, isOpen, onClose }) {
         opacity: 0,
         duration: 0.38,
         ease: "power2.inOut",
+        onUpdate: () => {
+          ScrollTrigger.refresh();
+        },
         onComplete: () => {
           el.style.display = "none";
+          ScrollTrigger.refresh();
         }
       });
     }
@@ -274,7 +282,6 @@ function ProjectExpandPanel({ project, isOpen, onClose }) {
       ref={panelRef}
       className={`project-inline-panel ${isOpen ? "is-open" : ""}`}
       style={{ height: 0, opacity: 0, overflow: "hidden", display: "none" }}
-      data-lenis-prevent="true"
       id="project-expand-container"
     >
       <div className="pip-container">
@@ -392,8 +399,12 @@ function PatentsExpandPanel({ patents, isOpen, onClose }) {
         opacity: 1,
         duration: 0.5,
         ease: "power2.out",
+        onUpdate: () => {
+          ScrollTrigger.refresh();
+        },
         onComplete: () => {
           el.style.height = "auto";
+          ScrollTrigger.refresh();
         }
       });
     } else {
@@ -405,8 +416,12 @@ function PatentsExpandPanel({ patents, isOpen, onClose }) {
         opacity: 0,
         duration: 0.38,
         ease: "power2.inOut",
+        onUpdate: () => {
+          ScrollTrigger.refresh();
+        },
         onComplete: () => {
           el.style.display = "none";
+          ScrollTrigger.refresh();
         }
       });
     }
@@ -425,7 +440,6 @@ function PatentsExpandPanel({ patents, isOpen, onClose }) {
       ref={panelRef}
       className={`project-inline-panel patent-inline-panel ${isOpen ? "is-open" : ""}`}
       style={{ height: 0, opacity: 0, overflow: "hidden", display: "none" }}
-      data-lenis-prevent="true"
       id="patents-expand-container"
     >
       <div className="pip-container">
@@ -653,7 +667,7 @@ function App() {
               scrollTrigger: {
                 trigger: card,
                 start: "top 88%",
-                toggleActions: "play reverse play reverse"
+                toggleActions: "play none none reverse"
               }
             }
           );
@@ -676,14 +690,24 @@ function App() {
             scrollTrigger: {
               trigger: item,
               start: "top 88%",
-              toggleActions: "play reverse play reverse"
+              toggleActions: "play none none reverse"
             }
           }
         );
       });
     }, rootRef);
 
+    // Auto-refresh ScrollTrigger and Lenis when layout or dynamic accordion heights mutate
+    const ro = new ResizeObserver(() => {
+      ScrollTrigger.refresh();
+      lenisRef.current?.resize();
+    });
+    if (rootRef.current) {
+      ro.observe(rootRef.current);
+    }
+
     return () => {
+      ro.disconnect();
       ctx.revert();
       gsap.ticker.remove(tick);
       lenis.destroy();
@@ -707,6 +731,17 @@ function App() {
     window.addEventListener("pointermove", move);
     return () => window.removeEventListener("pointermove", move);
   }, [cursorX, cursorY]);
+
+  // Synchronize ScrollTrigger and Lenis scroll limits on expand/collapse state changes
+  useEffect(() => {
+    ScrollTrigger.refresh();
+    lenisRef.current?.resize();
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      lenisRef.current?.resize();
+    }, 550);
+    return () => clearTimeout(timer);
+  }, [expandedProject, isPatentsOpen]);
 
   const navigate = (id) => {
     setMenuOpen(false);
