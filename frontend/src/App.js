@@ -82,8 +82,8 @@ function SectionHeadingWiped({ index, line1, line2, description, indexColor }) {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: el,
-        start: "top 85%",
-        toggleActions: "play none none reverse"
+        start: "top 90%",
+        once: true
       }
     });
 
@@ -666,8 +666,8 @@ function App() {
               ease: "power3.out",
               scrollTrigger: {
                 trigger: card,
-                start: "top 88%",
-                toggleActions: "play none none reverse"
+                start: "top 95%",
+                once: true
               }
             }
           );
@@ -689,8 +689,8 @@ function App() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: item,
-              start: "top 88%",
-              toggleActions: "play none none reverse"
+              start: "top 95%",
+              once: true
             }
           }
         );
