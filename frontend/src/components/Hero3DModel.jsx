@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { Rotate3d, Compass, Cpu, ShieldCheck, Zap, Gauge } from "lucide-react";
 
 /**
  * Creates a high-contrast studio environment map procedurally
@@ -759,8 +758,16 @@ export function Hero3DModel() {
       domEl.style.cursor = "grab";
     };
 
+    const onDblClick = () => {
+      animState.current.targetDragRotY = 0.65;
+      animState.current.targetDragRotX = 0.08;
+      animState.current.velX = 0;
+      animState.current.velY = 0;
+    };
+
     domEl.style.cursor = "grab";
     domEl.addEventListener("pointerdown", onPointerDown);
+    domEl.addEventListener("dblclick", onDblClick);
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
     domEl.addEventListener("pointerleave", onPointerUp);
@@ -839,6 +846,7 @@ export function Hero3DModel() {
       window.removeEventListener("pointerup", onPointerUp);
       window.removeEventListener("resize", onResize);
       domEl.removeEventListener("pointerdown", onPointerDown);
+      domEl.removeEventListener("dblclick", onDblClick);
       domEl.removeEventListener("pointerleave", onPointerUp);
 
       if (container.contains(renderer.domElement)) {
@@ -854,59 +862,14 @@ export function Hero3DModel() {
       {/* 3D Canvas Mounting Node */}
       <div ref={mountRef} className="hero-3d-canvas" />
 
-      {/* Futuristic Background Atmospheric Glow */}
+      {/* Atmospheric Ambient Depth Glow */}
       <div className="hero-3d-ambient-glow" aria-hidden="true" />
 
-      {/* Loading Skeleton */}
+      {/* Clean, Non-intrusive Loading Indicator */}
       {loading && (
         <div className="hero-3d-loader">
           <div className="hero-3d-spinner" />
-          <span>INITIALIZING 3D CONCEPT PLATFORM...</span>
         </div>
-      )}
-
-      {/* Floating Capability Pills (Inspired by the robot reference image) */}
-      {!loading && (
-        <>
-          <div className="hero-3d-badge badge-top-left" title="India's First 4-Speed Geared EV Platform">
-            <Zap size={13} className="badge-icon" />
-            <span>4-Speed Geared EV</span>
-          </div>
-
-          <div className="hero-3d-badge badge-top-right" title="Certified Range Validation">
-            <Gauge size={13} className="badge-icon" />
-            <span>170+ km Certified Range</span>
-          </div>
-
-          <div className="hero-3d-badge badge-mid-left" title="Co-Invented Granted Patent">
-            <ShieldCheck size={13} className="badge-icon" />
-            <span>Dual Cradle Frame · Patent</span>
-          </div>
-
-          <div className="hero-3d-badge badge-mid-right" title="V-Model Architecture & Telematics">
-            <Cpu size={13} className="badge-icon" />
-            <span>6 Domain ECUs &amp; A-FTA</span>
-          </div>
-
-          {/* Interactive User Control Pill Bar */}
-          <div className="hero-3d-controls-bar">
-            <div className="hero-3d-hint">
-              <Rotate3d size={13} className="hint-icon" />
-              <span>DRAG TO ROTATE 3D</span>
-              <span className="hint-divider">·</span>
-              <Compass size={13} className="hint-icon" />
-              <span>MOVE CURSOR TO LEAN &amp; PITCH</span>
-            </div>
-            <button
-              type="button"
-              className="hero-3d-reset-btn"
-              onClick={handleReset}
-              title="Reset 3D camera to default beauty angle"
-            >
-              ↺ RESET
-            </button>
-          </div>
-        </>
       )}
     </div>
   );
