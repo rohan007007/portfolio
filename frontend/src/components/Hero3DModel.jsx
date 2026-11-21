@@ -36,6 +36,281 @@ function createStudioEnvMap(renderer) {
   return renderTarget.texture;
 }
 
+/**
+ * Eliminates commuter-specific geometry artifacts from the base mesh & wheels
+ * (Tall bug mirrors, rear mudguard stalk, paddock stand, passenger grab rails)
+ * by collapsing matching triangle indices so GPU rasterizer discards them.
+ */
+function clipCommuterTriangles(mesh) {
+  const name = (mesh.name || "").toLowerCase();
+  // Never clip tire rubber, headlights, or indicators
+  if (name.includes("tyre") || name.includes("headlight") || name.includes("indicator")) return;
+
+  const geom = mesh.geometry;
+  if (!geom || !geom.attributes.position) return;
+  const pos = geom.attributes.position;
+  mesh.updateWorldMatrix(true, false);
+  const worldMat = mesh.matrixWorld;
+
+  const vA = new THREE.Vector3();
+  const vB = new THREE.Vector3();
+  const vC = new THREE.Vector3();
+
+  const isCommuterPoint = (v) => {
+    const wx = v.x;
+    const wy = v.y;
+    const wz = v.z;
+
+    // 1. Paddock stand: ground tubes, lever handle, and side swingarm support legs outside tire
+    if (wy < 0.055 && wz < 0.1 && (name.includes("wheel") || name.includes("base"))) return true;
+    if (Math.abs(wx) >= 0.082 && wy < 0.34 && wz > -0.76 && wz < -0.28 && (name.includes("wheel") || name.includes("base"))) return true;
+    if (wz < -0.62 && wy < 0.26 && (name.includes("wheel") || name.includes("base"))) return true;
+    if (wz < -0.68 && wy > 0.38 && (name.includes("wheel") || name.includes("base"))) return true;
+
+    // 2. Tall commuter mirrors: wy > 0.93, abs(wx) > 0.06, wz between 0.25 and 0.65
+    if (wy > 0.93 && Math.abs(wx) > 0.06 && wz > 0.25 && wz < 0.65) return true;
+
+    // 3. Long commuter rear mudguard / number plate holder: wz < -0.68 and wy < 0.60, abs(wx) < 0.09
+    if (wz < -0.68 && wy < 0.60 && Math.abs(wx) < 0.09) return true;
+
+    // 4. Passenger commuter grab rail & luggage rack: wz between -0.40 and -0.82, wy > 0.72
+    if (wz < -0.40 && wz > -0.82 && wy > 0.72) return true;
+
+    return false;
+  };
+
+  let collapsedCount = 0;
+  if (geom.index) {
+    const idx = geom.index;
+    const triCount = idx.count / 3;
+    for (let t = 0; t < triCount; t++) {
+      const iA = idx.getX(3 * t);
+      const iB = idx.getX(3 * t + 1);
+      const iC = idx.getX(3 * t + 2);
+
+      vA.set(pos.getX(iA), pos.getY(iA), pos.getZ(iA)).applyMatrix4(worldMat);
+      vB.set(pos.getX(iB), pos.getY(iB), pos.getZ(iB)).applyMatrix4(worldMat);
+      vC.set(pos.getX(iC), pos.getY(iC), pos.getZ(iC)).applyMatrix4(worldMat);
+
+      if (isCommuterPoint(vA) || isCommuterPoint(vB) || isCommuterPoint(vC)) {
+        idx.setX(3 * t, 0);
+        idx.setX(3 * t + 1, 0);
+        idx.setX(3 * t + 2, 0);
+        collapsedCount++;
+      }
+    }
+    idx.needsUpdate = true;
+    console.error(`[CLIP-COUNT] "${mesh.name}": collapsed ${collapsedCount} / ${triCount} triangles`);
+  }
+
+  geom.computeVertexNormals();
+  geom.computeBoundingBox();
+}
+
+/**
+ * Builds the Concept Electric Hyperbike Aerodynamic Aero Kit:
+ * - Solid carbon turbofan aero-discs on front and rear wheels with cyber neon rings
+ * - Low forward-swept aerodynamic nose cowl & tinted racing canopy
+ * - Dual MotoGP-spec aerodynamic downforce winglets (canards) with neon leading edges
+ * - Streamlined monocoque cyber-spine top bodywork replacing the commuter tank
+ * - Sharp single-seater racing aero-tail with razor-thin LED light blade
+ * - Lower aerodynamic ground-effect belly pan & battery diffuser
+ */
+function createConceptHyperbikeAeroKit(materials) {
+  const group = new THREE.Group();
+  group.name = "Concept_Aero_Kit";
+
+  const {
+    carbonAeroMaterial,
+    glossObsidianMaterial,
+    satinObsidianMaterial,
+    acidLedMaterial,
+    brakeLedMaterial,
+    titaniumMaterial,
+    tintedCanopyMaterial,
+  } = materials;
+
+  // 1. FRONT WHEEL TURBOFAN AERO-DISCS (Center: 0, 0.30, 0.755)
+  const frontDiscRadius = 0.265;
+  const frontDiscZ = 0.755;
+  const frontDiscY = 0.30;
+
+  [-0.052, 0.052].forEach((xSide) => {
+    // Carbon aerodynamic disc plate
+    const discGeom = new THREE.CylinderGeometry(frontDiscRadius, frontDiscRadius, 0.014, 40);
+    discGeom.rotateZ(Math.PI / 2);
+    const discMesh = new THREE.Mesh(discGeom, carbonAeroMaterial);
+    discMesh.position.set(xSide, frontDiscY, frontDiscZ);
+    group.add(discMesh);
+
+    // Outer cyber neon perimeter ring
+    const ringGeom = new THREE.RingGeometry(frontDiscRadius * 0.88, frontDiscRadius * 0.96, 40);
+    ringGeom.rotateY(xSide > 0 ? Math.PI / 2 : -Math.PI / 2);
+    const ringMesh = new THREE.Mesh(ringGeom, acidLedMaterial);
+    ringMesh.position.set(xSide + (xSide > 0 ? 0.008 : -0.008), frontDiscY, frontDiscZ);
+    group.add(ringMesh);
+
+    // Center lock titanium hub
+    const hubGeom = new THREE.CylinderGeometry(0.048, 0.048, 0.024, 24);
+    hubGeom.rotateZ(Math.PI / 2);
+    const hubMesh = new THREE.Mesh(hubGeom, titaniumMaterial);
+    hubMesh.position.set(xSide + (xSide > 0 ? 0.006 : -0.006), frontDiscY, frontDiscZ);
+    group.add(hubMesh);
+  });
+
+  // 2. REAR WHEEL TURBOFAN AERO-DISCS (Center: 0, 0.35, -0.595)
+  const rearDiscRadius = 0.275;
+  const rearDiscZ = -0.595;
+  const rearDiscY = 0.35;
+
+  [-0.058, 0.058].forEach((xSide) => {
+    // Carbon aerodynamic disc plate
+    const discGeom = new THREE.CylinderGeometry(rearDiscRadius, rearDiscRadius, 0.016, 40);
+    discGeom.rotateZ(Math.PI / 2);
+    const discMesh = new THREE.Mesh(discGeom, carbonAeroMaterial);
+    discMesh.position.set(xSide, rearDiscY, rearDiscZ);
+    group.add(discMesh);
+
+    // Outer cyber neon perimeter ring
+    const ringGeom = new THREE.RingGeometry(rearDiscRadius * 0.88, rearDiscRadius * 0.96, 40);
+    ringGeom.rotateY(xSide > 0 ? Math.PI / 2 : -Math.PI / 2);
+    const ringMesh = new THREE.Mesh(ringGeom, acidLedMaterial);
+    ringMesh.position.set(xSide + (xSide > 0 ? 0.009 : -0.009), rearDiscY, rearDiscZ);
+    group.add(ringMesh);
+
+    // Center lock titanium hub
+    const hubGeom = new THREE.CylinderGeometry(0.052, 0.052, 0.026, 24);
+    hubGeom.rotateZ(Math.PI / 2);
+    const hubMesh = new THREE.Mesh(hubGeom, titaniumMaterial);
+    hubMesh.position.set(xSide + (xSide > 0 ? 0.007 : -0.007), rearDiscY, rearDiscZ);
+    group.add(hubMesh);
+  });
+
+  // 3. AGGRESSIVE AERODYNAMIC FRONT NOSE COWL & WIND SPLITTER
+  // Forward-swept aerodynamic nose cone enclosing commuter headlight
+  const noseGeom = new THREE.ConeGeometry(0.18, 0.44, 4);
+  noseGeom.rotateX(Math.PI / 2);
+  noseGeom.rotateZ(Math.PI / 4); // diamond cross-section
+  const noseMesh = new THREE.Mesh(noseGeom, carbonAeroMaterial);
+  noseMesh.scale.set(1.1, 0.65, 1.0);
+  noseMesh.position.set(0, 0.77, 0.72);
+  group.add(noseMesh);
+
+  // Aerodynamic wind canopy / visor
+  const canopyGeom = new THREE.ConeGeometry(0.14, 0.38, 4);
+  canopyGeom.rotateX(Math.PI / 2.3);
+  canopyGeom.rotateZ(Math.PI / 4);
+  const canopyMesh = new THREE.Mesh(canopyGeom, tintedCanopyMaterial);
+  canopyMesh.scale.set(0.95, 0.45, 0.9);
+  canopyMesh.position.set(0, 0.85, 0.64);
+  group.add(canopyMesh);
+
+  // Front Cyber Neon LED Light Blade (Razor horizontal projector)
+  const frontLightGeom = new THREE.BoxGeometry(0.24, 0.016, 0.035);
+  const frontLightMesh = new THREE.Mesh(frontLightGeom, acidLedMaterial);
+  frontLightMesh.position.set(0, 0.765, 0.88);
+  group.add(frontLightMesh);
+
+  // Lower aerodynamic nose splitter blade
+  const splitterGeom = new THREE.BoxGeometry(0.28, 0.012, 0.16);
+  const splitterMesh = new THREE.Mesh(splitterGeom, carbonAeroMaterial);
+  splitterMesh.position.set(0, 0.66, 0.76);
+  splitterMesh.rotation.x = 0.12;
+  group.add(splitterMesh);
+
+  // Dual MotoGP-Style Downforce Winglets (Canards)
+  [-1, 1].forEach((dir) => {
+    const wingGeom = new THREE.BoxGeometry(0.12, 0.008, 0.14);
+    const wingMesh = new THREE.Mesh(wingGeom, carbonAeroMaterial);
+    wingMesh.position.set(dir * 0.18, 0.74, 0.67);
+    wingMesh.rotation.z = -dir * 0.18;
+    wingMesh.rotation.y = dir * 0.15;
+    group.add(wingMesh);
+
+    // Glowing acid-yellow leading edge on winglet
+    const wingEdgeGeom = new THREE.BoxGeometry(0.122, 0.01, 0.012);
+    const wingEdgeMesh = new THREE.Mesh(wingEdgeGeom, acidLedMaterial);
+    wingEdgeMesh.position.set(dir * 0.18, 0.742, 0.738);
+    wingEdgeMesh.rotation.z = -dir * 0.18;
+    wingEdgeMesh.rotation.y = dir * 0.15;
+    group.add(wingEdgeMesh);
+  });
+
+  // 4. STREAMLINED MONOCOQUE CYBER-SPINE (TOP FUEL-CELL / INVERTER SHELL)
+  // Low-slung, continuous muscular spine replacing commuter tank and flap
+  const spineGeom = new THREE.BoxGeometry(0.25, 0.12, 0.62);
+  const spineMesh = new THREE.Mesh(spineGeom, carbonAeroMaterial);
+  spineMesh.position.set(0, 0.89, 0.22);
+  spineMesh.rotation.x = -0.08;
+  group.add(spineMesh);
+
+  // Top digital HUD / telemetry glass canopy
+  const hudGlassGeom = new THREE.BoxGeometry(0.14, 0.015, 0.28);
+  const hudGlassMesh = new THREE.Mesh(hudGlassGeom, glossObsidianMaterial);
+  hudGlassMesh.position.set(0, 0.955, 0.26);
+  hudGlassMesh.rotation.x = -0.08;
+  group.add(hudGlassMesh);
+
+  // Longitudinal Cyber Accent Light Strips along the shoulders
+  [-1, 1].forEach((dir) => {
+    const stripGeom = new THREE.BoxGeometry(0.008, 0.008, 0.58);
+    const stripMesh = new THREE.Mesh(stripGeom, acidLedMaterial);
+    stripMesh.position.set(dir * 0.122, 0.945, 0.22);
+    stripMesh.rotation.x = -0.08;
+    group.add(stripMesh);
+  });
+
+  // 5. SINGLE-SEATER RACE AERO-TAIL UNIT
+  // Sleek, tapered aerodynamic carbon tail cowl
+  const tailGeom = new THREE.ConeGeometry(0.18, 0.56, 4);
+  tailGeom.rotateX(-Math.PI / 2.1);
+  tailGeom.rotateZ(Math.PI / 4); // Diamond / faceted wedge profile
+  const tailMesh = new THREE.Mesh(tailGeom, carbonAeroMaterial);
+  tailMesh.scale.set(1.1, 0.45, 1.0);
+  tailMesh.position.set(0, 0.81, -0.46);
+  group.add(tailMesh);
+
+  // Alcantara single-seat racing pad
+  const seatGeom = new THREE.BoxGeometry(0.17, 0.025, 0.26);
+  const seatMesh = new THREE.Mesh(seatGeom, satinObsidianMaterial);
+  seatMesh.position.set(0, 0.81, -0.16);
+  seatMesh.rotation.x = 0.05;
+  group.add(seatMesh);
+
+  // Rear Cyber LED Light Blade (Razor tail-light strip at trailing edge)
+  const tailLightGeom = new THREE.BoxGeometry(0.16, 0.014, 0.025);
+  const tailLightMesh = new THREE.Mesh(tailLightGeom, brakeLedMaterial);
+  tailLightMesh.position.set(0, 0.835, -0.72);
+  group.add(tailLightMesh);
+
+  // Dual Rear Aero Diffuser Fins under the tail
+  [-1, 1].forEach((dir) => {
+    const finGeom = new THREE.BoxGeometry(0.008, 0.08, 0.24);
+    const finMesh = new THREE.Mesh(finGeom, carbonAeroMaterial);
+    finMesh.position.set(dir * 0.09, 0.72, -0.56);
+    finMesh.rotation.z = dir * 0.12;
+    group.add(finMesh);
+  });
+
+  // 6. LOWER GROUND-EFFECT BELLY PAN & BATTERY DIFFUSER
+  // Low-slung aerodynamic carbon underbody keel hugging the frame and battery
+  const bellyGeom = new THREE.BoxGeometry(0.24, 0.12, 0.78);
+  const bellyMesh = new THREE.Mesh(bellyGeom, carbonAeroMaterial);
+  bellyMesh.position.set(0, 0.24, 0.08);
+  bellyMesh.rotation.x = 0.05;
+  group.add(bellyMesh);
+
+  // Lower neon ground-effect ambient illumination tubes
+  [-1, 1].forEach((dir) => {
+    const underGlowGeom = new THREE.BoxGeometry(0.008, 0.008, 0.62);
+    const underGlowMesh = new THREE.Mesh(underGlowGeom, acidLedMaterial);
+    underGlowMesh.position.set(dir * 0.122, 0.185, 0.08);
+    group.add(underGlowMesh);
+  });
+
+  return group;
+}
+
 export function Hero3DModel() {
   const mountRef = useRef(null);
   const [loading, setLoading] = useState(true);
@@ -217,6 +492,31 @@ export function Hero3DModel() {
       roughness: 0.2,
     });
 
+    // 9. Aerodynamic Carbon Fiber Shell (Hyperbike Bodywork & Aero-Discs)
+    const carbonAeroMaterial = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0x0c0d10),
+      metalness: 0.35,
+      roughness: 0.25,
+      clearcoat: 0.85,
+      clearcoatRoughness: 0.12,
+      reflectivity: 0.9,
+      envMapIntensity: 2.2,
+    });
+
+    // 10. Tinted Racing Visor & HUD Glass Canopy
+    const tintedCanopyMaterial = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0x020304),
+      metalness: 0.15,
+      roughness: 0.04,
+      transmission: 0.82,
+      transparent: true,
+      opacity: 0.9,
+      ior: 1.5,
+      reflectivity: 0.95,
+      clearcoat: 1.0,
+      envMapIntensity: 2.4,
+    });
+
     // Load Model with Draco decompression support
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
@@ -231,7 +531,7 @@ export function Hero3DModel() {
       (gltf) => {
         const root = gltf.scene;
 
-        // Traverse and customize materials to completely transform the appearance
+        root.updateWorldMatrix(true, true);
         root.traverse((node) => {
           if (node.isMesh) {
             node.castShadow = true;
@@ -252,7 +552,13 @@ export function Hero3DModel() {
               return;
             }
 
-            // 2. Ground shadow plane
+            // 2. Hide commuter tank & charging flap (replaced by sleek monocoque cyber-spine)
+            if (name.includes("tank") || name.includes("flap")) {
+              node.visible = false;
+              return;
+            }
+
+            // 3. Ground shadow plane
             if (name.includes("shadow") || matName.includes("shadow")) {
               node.material = new THREE.MeshBasicMaterial({
                 color: 0x000000,
@@ -262,7 +568,10 @@ export function Hero3DModel() {
               return;
             }
 
-            // 3. Headlights & LED lights
+            // 4. Eliminate commuter geometry artifacts (tall bug mirrors, rear mudguard stalk, paddock stand)
+            clipCommuterTriangles(node);
+
+            // 5. Headlights & LED lights
             if (
               name.includes("headlight") ||
               matName.includes("headlight") ||
@@ -274,43 +583,36 @@ export function Hero3DModel() {
               return;
             }
 
-            // 4. Brake light
+            // 6. Brake light
             if (name.includes("brake") || matName.includes("brake")) {
               node.material = brakeLedMaterial;
               return;
             }
 
-            // 5. Tires
+            // 7. Tires
             if (name.includes("tyre") || matName.includes("tyre")) {
               node.material = tireRubberMaterial;
               return;
             }
 
-            // 6. Wheels
+            // 8. Wheels
             if (name.includes("wheel") || matName.includes("wheel")) {
               node.material = forgedWheelMaterial;
               return;
             }
 
-            // 7. Mechanicals / Powertrain / Frame / Drivetrain (Base mesh)
+            // 9. Mechanicals / Powertrain / Frame / Drivetrain (Base mesh)
             if (
               name.includes("base mesh") ||
               name.includes("gearbox") ||
               matName.includes("combined") ||
               matName.includes("mataux")
             ) {
-              // High-tech gunmetal chrome
               node.material = gunmetalChromeMaterial;
               return;
             }
 
-            // 8. Tank & Flap glossy carbon inserts
-            if (name.includes("tank") || name.includes("flap")) {
-              node.material = glossObsidianMaterial;
-              return;
-            }
-
-            // 9. Main Body panels -> Satin Obsidian Black
+            // 10. Remaining main body panels -> Satin Obsidian
             if (name.includes("body") || matName.includes("body")) {
               node.material = satinObsidianMaterial;
               return;
@@ -320,6 +622,18 @@ export function Hero3DModel() {
             node.material = titaniumMaterial;
           }
         });
+
+        // Attach Concept Hyperbike Aero Kit (Aero-Discs, Nose Cowl, Cyber-Spine, Race Tail, Belly Pan)
+        const aeroKit = createConceptHyperbikeAeroKit({
+          carbonAeroMaterial,
+          glossObsidianMaterial,
+          satinObsidianMaterial,
+          acidLedMaterial,
+          brakeLedMaterial,
+          titaniumMaterial,
+          tintedCanopyMaterial,
+        });
+        root.add(aeroKit);
 
         // Compute Bounding Box & Center the model
         const box = new THREE.Box3().setFromObject(root);
