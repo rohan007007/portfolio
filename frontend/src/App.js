@@ -10,7 +10,10 @@ import {
   Mail,
   Menu,
   X,
-  ChevronLeft
+  ChevronLeft,
+  CheckCircle2,
+  FileText,
+  FolderOpen
 } from "lucide-react";
 import "@/App.css";
 import { DetailModal } from "@/components/DetailModal";
@@ -19,6 +22,7 @@ import {
   professionalExperience,
   projectDetails,
   patentDetails,
+  GOOGLE_DRIVE_PATENTS_LINK,
   RESUME_PDF_PATH
 } from "@/data/portfolioData";
 
@@ -362,11 +366,240 @@ function ProjectExpandPanel({ project, isOpen, onClose }) {
   );
 }
 
+/* ─────────────────────────────────────────────────────────────
+   Patents Inline Expansion Panel (Innovation Archive)
+   Expands smoothly inline below the Innovation Archive strip.
+   Identical transitions, styling & reveal animations as ProjectExpandPanel.
+   Vertically stacks all 14 patents in a list format with active Drive hyperlinks.
+   ───────────────────────────────────────────────────────────── */
+function PatentsExpandPanel({ patents, isOpen, onClose }) {
+  const panelRef = useRef(null);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+
+    if (isOpen) {
+      el.style.display = "block";
+      el.style.height = "auto";
+      const fullHeight = el.scrollHeight;
+      el.style.height = "0px";
+      el.style.opacity = "0";
+
+      gsap.to(el, {
+        height: fullHeight,
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+        onComplete: () => {
+          el.style.height = "auto";
+        }
+      });
+    } else {
+      const currentHeight = el.scrollHeight;
+      el.style.height = currentHeight + "px";
+
+      gsap.to(el, {
+        height: 0,
+        opacity: 0,
+        duration: 0.38,
+        ease: "power2.inOut",
+        onComplete: () => {
+          el.style.display = "none";
+        }
+      });
+    }
+  }, [isOpen]);
+
+  if (!patents) return null;
+
+  // All 14 patents in continuous vertical stack (Granted #01, #02 followed by Published #03 to #14)
+  const allPatents = [
+    ...patents.granted,
+    ...patents.published
+  ];
+
+  return (
+    <div
+      ref={panelRef}
+      className={`project-inline-panel patent-inline-panel ${isOpen ? "is-open" : ""}`}
+      style={{ height: 0, opacity: 0, overflow: "hidden", display: "none" }}
+      data-lenis-prevent="true"
+      id="patents-expand-container"
+    >
+      <div className="pip-container">
+        {/* Neon Top Bar */}
+        <div className="pip-topbar">
+          <div className="pip-tag-wrap">
+            <span className="pip-dot" />
+            <span className="pip-tag">{patents.tag || "INNOVATION ARCHIVE · INTELLECTUAL PROPERTY"}</span>
+          </div>
+          <button
+            className="pip-close-btn"
+            onClick={onClose}
+            aria-label="Collapse patent archive"
+            title="Collapse patent archive"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Title and Subtitle with Reveal Wipe */}
+        <div className="pip-header">
+          <div className="pip-title-wrap">
+            <h3 className="pip-title">{patents.title || "14 Automotive Patents"}</h3>
+            <span className="pip-wipe" />
+          </div>
+          <p className="pip-subtitle">{patents.subtitle}</p>
+        </div>
+
+        {/* Dynamic Metric Boxes */}
+        <div className="pip-stats-grid">
+          <div className="pip-stat-card">
+            <div className="pip-stat-val-wrap">
+              <strong className="pip-stat-val">2</strong>
+              <span className="pip-wipe" />
+            </div>
+            <span className="pip-stat-label">GRANTED PATENTS</span>
+          </div>
+          <div className="pip-stat-card">
+            <div className="pip-stat-val-wrap">
+              <strong className="pip-stat-val">12</strong>
+              <span className="pip-wipe" />
+            </div>
+            <span className="pip-stat-label">PUBLISHED PATENTS</span>
+          </div>
+          <div className="pip-stat-card">
+            <div className="pip-stat-val-wrap">
+              <strong className="pip-stat-val">100%</strong>
+              <span className="pip-wipe" />
+            </div>
+            <span className="pip-stat-label">PRODUCTION PLATFORM IMPACT</span>
+          </div>
+          <a
+            href={patents.driveLink || GOOGLE_DRIVE_PATENTS_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pip-stat-card pip-stat-link-card"
+            title="Open official granted patent filings in Google Drive"
+          >
+            <div className="pip-stat-val-wrap">
+              <strong className="pip-stat-val link-val" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                Drive <ArrowUpRight size={20} />
+              </strong>
+              <span className="pip-wipe" />
+            </div>
+            <span className="pip-stat-label">OFFICIAL DRIVE ARCHIVE ↗</span>
+          </a>
+        </div>
+
+        {/* System Overview */}
+        {patents.summary && (
+          <div className="pip-overview-block">
+            <span className="pip-section-label">// INTELLECTUAL PROPERTY &amp; ENGINEERING PORTFOLIO</span>
+            <p>{patents.summary}</p>
+          </div>
+        )}
+
+        {/* Vertically Stacked Patents Ledger (All 14 Patents in List Format) */}
+        <div className="pip-highlights-block">
+          <span className="pip-section-label">// COMPLETE CHRONOLOGICAL PATENT LEDGER (14 PATENTS)</span>
+          <div className="patent-vertical-list">
+            {allPatents.map((patent) => {
+              const isGranted = patent.status === "GRANTED";
+              const driveUrl = patent.driveLink || GOOGLE_DRIVE_PATENTS_LINK;
+
+              if (isGranted) {
+                return (
+                  <a
+                    key={patent.number}
+                    href={driveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="patent-list-row is-granted"
+                    data-testid={`patent-granted-${patent.number}`}
+                    title="Open official granted patent filing in Google Drive"
+                  >
+                    <div className="patent-row-left">
+                      <span className="patent-row-num">PATENT #{patent.number}</span>
+                      <span className="patent-row-status granted">
+                        <CheckCircle2 size={13} /> GRANTED
+                      </span>
+                    </div>
+                    <div className="patent-row-main">
+                      <div className="patent-row-header-wrap">
+                        <h4 className="patent-row-title">{patent.title}</h4>
+                        <span className="patent-row-cat">{patent.category}</span>
+                      </div>
+                      <p className="patent-row-desc">{patent.description}</p>
+                    </div>
+                    <div className="patent-row-action">
+                      <div className="patent-row-action-btn granted">
+                        <span>Open in Drive</span>
+                        <ArrowUpRight size={14} />
+                      </div>
+                    </div>
+                  </a>
+                );
+              }
+
+              return (
+                <div
+                  key={patent.number}
+                  className="patent-list-row is-published"
+                  data-testid={`patent-published-${patent.number}`}
+                >
+                  <div className="patent-row-left">
+                    <span className="patent-row-num">PATENT #{patent.number}</span>
+                    <span className="patent-row-status published">
+                      <FileText size={13} /> PUBLISHED
+                    </span>
+                  </div>
+                  <div className="patent-row-main">
+                    <div className="patent-row-header-wrap">
+                      <h4 className="patent-row-title">{patent.title}</h4>
+                      <span className="patent-row-cat">{patent.category}</span>
+                    </div>
+                    <p className="patent-row-desc">{patent.description}</p>
+                  </div>
+                  <div className="patent-row-action">
+                    <span className="patent-row-status-tag">Indian Patent Office</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Footer Collapse Bar with Direct Drive Link */}
+        <div className="pip-footer">
+          <span className="pip-footer-note">ROHAN LODAYA · 14 AUTOMOTIVE PATENTS ARCHIVE</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <a
+              href={patents.driveLink || GOOGLE_DRIVE_PATENTS_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pip-footer-drive-btn"
+              title="Open official Google Drive archive folder"
+            >
+              <FolderOpen size={14} /> Open Drive Folder <ArrowUpRight size={12} />
+            </a>
+            <button className="pip-footer-close" onClick={onClose}>
+              collapse
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
   const [expandedProject, setExpandedProject] = useState(null);
+  const [isPatentsOpen, setIsPatentsOpen] = useState(false);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -485,6 +718,7 @@ function App() {
     if (expandedProject === idx) {
       setExpandedProject(null);
     } else {
+      setIsPatentsOpen(false);
       setExpandedProject(idx);
       setTimeout(() => {
         const el = document.getElementById("project-expand-container");
@@ -498,6 +732,27 @@ function App() {
       }, 40);
     }
   };
+
+  // Immediate, buttery smooth patent archive expand & synchronized scroll
+  const handleTogglePatents = useCallback(() => {
+    setIsPatentsOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        setExpandedProject(null);
+        setTimeout(() => {
+          const el = document.getElementById("patents-expand-container");
+          if (el) {
+            if (lenisRef.current) {
+              lenisRef.current.scrollTo(el, { offset: -80, duration: 0.7 });
+            } else {
+              el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+          }
+        }, 50);
+      }
+      return next;
+    });
+  }, []);
 
   return (
     <div ref={rootRef} className={`portfolio ${loaded ? "is-loaded" : ""}`}>
@@ -659,25 +914,49 @@ function App() {
 
           {/* Patent Innovation Archive Strip */}
           <div
-            className="patent-strip"
+            className={`patent-strip ${isPatentsOpen ? "is-active" : ""}`}
             data-testid="patent-archive-strip"
-            onClick={() => setActiveModal({ type: "PATENTS", data: patentDetails })}
-            title="Click to view all 14 automotive patents"
+            onClick={handleTogglePatents}
+            role="button"
+            tabIndex={0}
+            aria-expanded={isPatentsOpen}
+            title={isPatentsOpen ? "Click to collapse patent archive" : "Click to expand all 14 automotive patents"}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                handleTogglePatents();
+              }
+            }}
           >
-            <span>INNOVATION ARCHIVE</span>
-            <strong>14 AUTOMOTIVE PATENTS (2 GRANTED)</strong>
+            <div className="patent-strip-left">
+              <span className="patent-strip-label">INNOVATION ARCHIVE</span>
+              <span className="patent-strip-dot" />
+              <span className="patent-strip-count">14 PATENTS</span>
+            </div>
+            <strong className="patent-strip-title">14 AUTOMOTIVE PATENTS (2 GRANTED)</strong>
             <button
               type="button"
               className="patent-strip-btn"
               data-testid="patent-archive-link"
               onClick={(e) => {
                 e.stopPropagation();
-                setActiveModal({ type: "PATENTS", data: patentDetails });
+                handleTogglePatents();
               }}
             >
-              VIEW <ArrowUpRight size={16} />
+              <span>{isPatentsOpen ? "COLLAPSE" : "EXPAND"}</span>
+              <ArrowUpRight
+                size={16}
+                className={`patent-strip-arrow ${isPatentsOpen ? "is-open" : ""}`}
+              />
             </button>
           </div>
+
+          {/* Patent Innovation Archive Inline Expansion Panel */}
+          <PatentsExpandPanel
+            patents={patentDetails}
+            isOpen={isPatentsOpen}
+            onClose={() => setIsPatentsOpen(false)}
+          />
         </section>
 
         {/* Section 03: Professional Trajectory (With Heading Wipe Reveal) */}

@@ -610,21 +610,61 @@ button { border: 0; cursor: pointer; }
   align-items: center;
   gap: 25px;
   margin-top: 5vw;
-  padding: 24px 24px;
-  border-top: 1px solid #2a2a2e;
-  border-bottom: 1px solid #2a2a2e;
-  border-radius: 8px;
+  padding: 22px 28px;
+  background: #141416;
+  border: 1px solid #28282c;
+  border-radius: 12px;
   color: #898983;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: border-color .35s ease, background-color .35s ease, box-shadow .35s ease, transform .35s ease;
+  user-select: none;
 }
 .patent-strip:hover {
-  background: rgba(255,255,255,0.02);
-  border-color: rgba(217,255,63,0.4);
+  border-color: var(--acid);
+  background: #191a1e;
+  box-shadow: 0 14px 36px -10px rgba(0,0,0,0.8), 0 0 25px rgba(217,255,63,0.06);
+  transform: translateY(-2px);
 }
-.patent-strip strong { color: #f2f1ed; font: 600 16px var(--display); letter-spacing: -.03em; }
-.patent-strip-btn {
+.patent-strip.is-active {
+  border-color: var(--acid);
+  background: #17181c;
+  box-shadow: 0 0 30px rgba(217,255,63,0.15), inset 0 0 15px rgba(217,255,63,0.04);
+}
+.patent-strip-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.patent-strip-label {
+  font: 700 11px var(--mono);
+  letter-spacing: .14em;
+  color: #73736d;
+  text-transform: uppercase;
+  transition: color .25s ease;
+}
+.patent-strip:hover .patent-strip-label,
+.patent-strip.is-active .patent-strip-label {
   color: var(--acid);
+}
+.patent-strip-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #52524e;
+}
+.patent-strip-count {
+  font: 600 10px var(--mono);
+  color: #8c8b86;
+  letter-spacing: .08em;
+}
+.patent-strip-title {
+  color: #f2f1ed;
+  font: 700 clamp(1.05rem, 1.5vw, 1.3rem) var(--display);
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+}
+.patent-strip-btn {
+  color: #8c8b86;
   background: none;
   border: 0;
   display: flex;
@@ -634,9 +674,211 @@ button { border: 0; cursor: pointer; }
   font: 700 11px var(--mono);
   letter-spacing: .08em;
   cursor: pointer;
-  transition: transform .25s ease;
+  transition: color .25s ease;
 }
-.patent-strip:hover .patent-strip-btn { transform: translateX(4px); }
+.patent-strip:hover .patent-strip-btn,
+.patent-strip.is-active .patent-strip-btn {
+  color: var(--acid);
+}
+.patent-strip-arrow {
+  transition: transform .35s ease;
+}
+.patent-strip-arrow.is-open {
+  transform: rotate(90deg);
+  color: var(--acid);
+}
+
+/* Patent Inline Expand Panel — 1:1 match with Project Expand Panel */
+.patent-inline-panel {
+  will-change: height, opacity;
+  transform: translateZ(0);
+  margin-top: 24px;
+}
+
+/* Vertical Stacked Patent Ledger */
+.patent-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.patent-list-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 180px;
+  gap: 24px;
+  align-items: center;
+  padding: 18px 24px;
+  border-radius: 10px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+/* Granted Patent Row — Clickable link to Drive */
+.patent-list-row.is-granted {
+  background: #111512;
+  border: 1px solid rgba(217, 255, 63, 0.32);
+  border-left: 4px solid var(--acid);
+  cursor: pointer;
+}
+.patent-list-row.is-granted:hover {
+  background: #162014;
+  border-color: var(--acid);
+  transform: translateX(4px);
+  box-shadow: 0 12px 30px -8px rgba(0,0,0,0.8), 0 0 24px rgba(217, 255, 63, 0.12);
+}
+.patent-list-row.is-granted:hover .patent-row-title {
+  color: #ffffff;
+}
+.patent-list-row.is-granted:hover .patent-row-action-btn.granted {
+  background: var(--acid);
+  color: var(--ink);
+  border-color: var(--acid);
+}
+
+/* Published Patent Row */
+.patent-list-row.is-published {
+  background: #111215;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid rgba(255, 255, 255, 0.18);
+}
+.patent-list-row.is-published:hover {
+  background: #15161b;
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateX(2px);
+}
+
+.patent-row-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.patent-row-num {
+  font: 700 11px var(--mono);
+  color: #787772;
+  letter-spacing: 0.1em;
+}
+.patent-row-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 700 10px var(--mono);
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  width: fit-content;
+  text-transform: uppercase;
+}
+.patent-row-status.granted {
+  background: rgba(217, 255, 63, 0.15);
+  border: 1px solid rgba(217, 255, 63, 0.4);
+  color: var(--acid);
+}
+.patent-row-status.published {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a09f98;
+}
+
+.patent-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.patent-row-header-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+}
+.patent-row-title {
+  margin: 0;
+  font: 700 clamp(1.05rem, 1.3vw, 1.25rem)/1.2 var(--display);
+  letter-spacing: -0.02em;
+  color: #f5f4ef;
+  transition: color 0.2s ease;
+}
+.patent-row-cat {
+  font: 600 10.5px var(--mono);
+  letter-spacing: 0.08em;
+  color: var(--acid);
+  text-transform: uppercase;
+}
+.patent-row-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #9c9b95;
+}
+
+.patent-row-action {
+  display: flex;
+  justify-content: flex-end;
+}
+.patent-row-action-btn.granted {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(217, 255, 63, 0.08);
+  border: 1px solid rgba(217, 255, 63, 0.35);
+  border-radius: 6px;
+  color: var(--acid);
+  font: 700 11px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.patent-row-status-tag {
+  font: 600 10.5px var(--mono);
+  color: #72716c;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Direct link card in stats grid */
+.pip-stat-link-card {
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .25s ease;
+  border-color: rgba(217, 255, 63, 0.3) !important;
+}
+.pip-stat-link-card:hover {
+  background: rgba(217, 255, 63, 0.08) !important;
+  border-color: var(--acid) !important;
+  transform: translateY(-2px);
+}
+.pip-stat-link-card .link-val {
+  color: var(--acid);
+}
+
+/* Footer Drive CTA */
+.pip-footer-drive-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: rgba(217, 255, 63, 0.1);
+  border: 1px solid rgba(217, 255, 63, 0.4);
+  border-radius: 4px;
+  color: var(--acid);
+  font: 700 10px var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.pip-footer-drive-btn:hover {
+  background: var(--acid);
+  color: var(--ink);
+  border-color: var(--acid);
+}
 
 /* ═══════════════════════════════════════════════════════
    SECTION 03: PROFESSIONAL TRAJECTORY (DARK THEME)
@@ -919,6 +1161,19 @@ button { border: 0; cursor: pointer; }
   .projects-grid { grid-template-columns: 1fr; }
   .trajectory-item { grid-template-columns: 1fr; gap: 12px; }
   .std-clean-row { grid-template-columns: 1fr; gap: 10px; }
+  .patent-list-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+  .patent-row-left {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .patent-row-action {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 760px) {
