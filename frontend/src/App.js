@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import "@/App.css";
 import { DetailModal } from "@/components/DetailModal";
+import { Hero3DModel } from "@/components/Hero3DModel";
 import {
   coreCompetencies,
   professionalExperience,
@@ -622,9 +623,8 @@ function App() {
 
     const ctx = gsap.context(() => {
       // 1. Hero animations
-      gsap.to(".hero-bike", {
-        yPercent: -10,
-        rotate: 2,
+      gsap.to(".hero-visual", {
+        yPercent: -8,
         ease: "none",
         scrollTrigger: { trigger: "#home", start: "top top", end: "bottom top", scrub: true }
       });
@@ -803,12 +803,8 @@ function App() {
               I engineer the invisible systems behind extraordinary electric vehicles — from first principles to the open road.
             </p>
           </div>
-          <div className="hero-visual">
-            <div className="bike-halo" />
-            <img className="hero-bike" data-testid="hero-bike-image" src={bikeImage} alt="Matte black sports motorcycle in a dark studio" />
-            <div className="hero-caption">
-              <span>4-SPEED GEARED EV PLATFORM / PRODUCTION CALIBRATION</span>
-            </div>
+          <div className="hero-visual" data-testid="hero-3d-visual">
+            <Hero3DModel />
           </div>
           <div className="hero-footer">
             <span>SCROLL TO EXPLORE</span>
