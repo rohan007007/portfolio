@@ -628,7 +628,13 @@ function App() {
     setLoaded(true);
     if (reduceMotion) return undefined;
 
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    const isTouch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    const lenis = new Lenis({
+      lerp: 0.09,
+      smoothWheel: true,
+      smoothTouch: false,
+      touchMultiplier: 1.5,
+    });
     lenisRef.current = lenis;
 
     const tick = (time) => lenis.raf(time * 1000);
@@ -648,19 +654,22 @@ function App() {
         scrollTrigger: { trigger: "#home", start: "top top", end: "bottom top", scrub: true }
       });
 
-      // 2. Lateral Slide (ON TRACK / OFF TRACK style) for 2-column card grids
-      // Left cards slide in from left (x: -90), Right cards slide in from right (x: +90)
+      // 2. Lateral Slide for 2-column card grids (On mobile, vertical slide to prevent horizontal overflow)
+      const isMobile = window.innerWidth <= 768;
       const setupLateralCards = (selector) => {
         const container = document.querySelector(selector);
         if (!container) return;
         const cards = Array.from(container.children);
         cards.forEach((card, idx) => {
           const isLeft = idx % 2 === 0;
+          const xOffset = isMobile ? 0 : (isLeft ? -90 : 90);
+          const yOffset = isMobile ? 35 : 0;
           gsap.fromTo(
             card,
-            { x: isLeft ? -90 : 90, opacity: 0 },
+            { x: xOffset, y: yOffset, opacity: 0 },
             {
               x: 0,
+              y: 0,
               opacity: 1,
               duration: 0.85,
               ease: "power3.out",
@@ -794,7 +803,7 @@ function App() {
       <motion.div className="cursor" style={{ x: springX, y: springY }} aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
 
-      {/* Navigation Header — High Fashion Typography (Matches LANDO NORRIS reference, no R circle) */}
+      {/* Navigation Header — High Fashion Typography with Hire Me CTA */}
       <header className="site-nav" data-testid="site-navigation">
         <button className="brand" data-testid="brand-home-button" onClick={() => navigate("home")} aria-label="Go to home">
           <span className="brand-logo-text">
@@ -808,13 +817,32 @@ function App() {
               <span>{number}</span>{label}
             </button>
           ))}
-          <a data-testid="nav-resume-link" href={resumeUrl} download="Rohan_Lodaya_ATS_Resume.pdf" target="_blank" rel="noreferrer">
+          <a data-testid="nav-resume-link" href={resumeUrl} download="Rohan_Lodaya_ATS_Resume.pdf" target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)}>
             Resume <ArrowUpRight size={14} />
           </a>
         </nav>
-        <button className="menu-toggle" data-testid="mobile-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
-          {menuOpen ? <X /> : <Menu />}
-        </button>
+        <div className="nav-right-actions">
+          <div className="nav-cta-wrap">
+            <a
+              href="mailto:rohanlodaya1997@gmail.com"
+              className="nav-cta"
+              data-testid="nav-hire-me-button"
+              aria-label="Hire Me - Email Rohan Lodaya"
+              onClick={() => setMenuOpen(false)}
+            >
+              Hire Me
+            </a>
+            <svg className="hire-svg" viewBox="0 0 140 48" preserveAspectRatio="none" aria-hidden="true">
+              <path
+                pathLength="1"
+                d="M 110 8 C 130 8, 138 18, 138 24 C 138 34, 128 42, 110 43 C 80 44, 40 44, 20 43 C 5 42, 2 34, 2 24 C 2 14, 8 6, 24 5 C 40 4, 80 4, 110 5 C 126 6, 134 14, 132 24 C 130 32, 120 38, 106 40"
+              />
+            </svg>
+          </div>
+          <button className="menu-toggle" data-testid="mobile-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
+            {menuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </header>
 
       <main>

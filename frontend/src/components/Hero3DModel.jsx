@@ -95,10 +95,12 @@ export function Hero3DModel() {
       powerPreference: "high-performance",
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
+    const isTouchDevice = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    renderer.setPixelRatio(isTouchDevice ? Math.min(window.devicePixelRatio, 1.0) : Math.min(window.devicePixelRatio, 1.25));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.35;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.domElement.style.touchAction = "pan-y";
     container.appendChild(renderer.domElement);
 
     // Studio Environment Reflections
@@ -335,6 +337,8 @@ export function Hero3DModel() {
 
     const onPointerDown = (e) => {
       animState.current.isDragging = true;
+      animState.current.startX = e.clientX;
+      animState.current.startY = e.clientY;
       animState.current.lastX = e.clientX;
       animState.current.lastY = e.clientY;
       animState.current.velX = 0;
@@ -346,6 +350,17 @@ export function Hero3DModel() {
       if (!animState.current.isDragging) return;
       const dx = e.clientX - animState.current.lastX;
       const dy = e.clientY - animState.current.lastY;
+
+      // On touch devices, if the gesture is predominantly vertical, release dragging to allow native document scroll
+      if (e.pointerType === "touch") {
+        const totalDx = Math.abs(e.clientX - animState.current.startX);
+        const totalDy = Math.abs(e.clientY - animState.current.startY);
+        if (totalDy > 10 && totalDy > totalDx * 1.25) {
+          animState.current.isDragging = false;
+          domEl.style.cursor = "grab";
+          return;
+        }
+      }
 
       const rotSpeedX = 0.0075;
       const rotSpeedY = 0.0055;
