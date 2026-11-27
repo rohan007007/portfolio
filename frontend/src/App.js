@@ -803,7 +803,7 @@ function App() {
       <motion.div className="cursor" style={{ x: springX, y: springY }} aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
 
-      {/* Navigation Header — High Fashion Typography with Hire Me CTA */}
+      {/* Navigation Header — High Fashion Typography */}
       <header className="site-nav" data-testid="site-navigation">
         <button className="brand" data-testid="brand-home-button" onClick={() => navigate("home")} aria-label="Go to home">
           <span className="brand-logo-text">
@@ -821,28 +821,9 @@ function App() {
             Resume <ArrowUpRight size={14} />
           </a>
         </nav>
-        <div className="nav-right-actions">
-          <div className="nav-cta-wrap">
-            <a
-              href="mailto:rohanlodaya1997@gmail.com"
-              className="nav-cta"
-              data-testid="nav-hire-me-button"
-              aria-label="Hire Me - Email Rohan Lodaya"
-              onClick={() => setMenuOpen(false)}
-            >
-              Hire Me
-            </a>
-            <svg className="hire-svg" viewBox="0 0 140 48" preserveAspectRatio="none" aria-hidden="true">
-              <path
-                pathLength="1"
-                d="M 110 8 C 130 8, 138 18, 138 24 C 138 34, 128 42, 110 43 C 80 44, 40 44, 20 43 C 5 42, 2 34, 2 24 C 2 14, 8 6, 24 5 C 40 4, 80 4, 110 5 C 126 6, 134 14, 132 24 C 130 32, 120 38, 106 40"
-              />
-            </svg>
-          </div>
-          <button className="menu-toggle" data-testid="mobile-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
-            {menuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
+        <button className="menu-toggle" data-testid="mobile-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
+          {menuOpen ? <X /> : <Menu />}
+        </button>
       </header>
 
       <main>
